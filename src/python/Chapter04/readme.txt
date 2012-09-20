@@ -130,3 +130,41 @@ print template % data		##并不会改变template
 区别
 >>> print 'hello'+',' ,'world'	#hello, world
 >>> print 'hello',',' ,'world'	#hello , world
+
+
+导入
+import　module
+from　module import function,...
+from　module import *
+import module as alias 
+from module import function funtionalias
+
+
+平行赋值
+x,y,z = 1,2,3
+x,y = y,x
+data = {"title":"hello　world","body":"content"}
+k,v = data.popitem()
+
+链式赋值
+x = y = function()
+
+
+增量赋值
+x = 2
+x += 2 加减乘除
+
+y = "wang"
+y * 2 
+y +=" liang"
+
+
+假
+False、None、整数或者浮点数０、空序列（字符串、元组、字典）等等，可以通过bool()判断
+
+
+and or 都是短路的 
+name = raw_input('Your name ?') or 'UNKNOWN'
+
+a if b else c
+
