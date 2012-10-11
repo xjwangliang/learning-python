@@ -5,3 +5,5 @@ sudo python setup.py install
 https://docs.djangoproject.com/en/dev/intro/install/
 import django
 print(django.get_version())
+
+ln -s full-path-to-mysql-VERSION-OS mysql

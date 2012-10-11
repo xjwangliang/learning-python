@@ -16,4 +16,4 @@ file = open("hello.txt")
 p = r'/Users/wangliang/Documents/Aptana Studio 3 Workspace/Python-Fundmental/src/python/Chapter14/hello.txt' #空格没有关心
 data = urlretrieve('http://www.baidu.com', p)
 print data
-urlcleanup()
+#urlcleanup()

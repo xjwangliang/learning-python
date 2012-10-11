@@ -1,0 +1,11 @@
+alias ll="ls -la"
+alias la="ls -a"
+alias ls="ls -G"
+export ANDROID_SDK=/Users/wangliang/Downloads/android-sdk-macosx
+export ANDROID_NDK=/Users/wangliang/Documents/ndk/android-ndk-r8
+export GUOKU=/Users/wangliang/Documents/androidworkspace
+export CATALINA_HOME=/Users/wangliang/Documents/tomcat/apache-tomcat-7.0.29
+export JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+export GOROOT=/usr/local/go
+export MONGO=/Users/wangliang/Documents/python/mongo/mongodb-osx-x86_64-2.2.0
+export PATH=$PATH:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$ANDROID_NDK:$CATALINA_HOME:$JAVA_HOME:$GOROOT/bin:$MONGO/bin

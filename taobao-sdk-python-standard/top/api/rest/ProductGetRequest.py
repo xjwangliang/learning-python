@@ -1,0 +1,14 @@
+'''
+Created by auto_sdk on 2012-09-23 16:46:13
+'''
+from top.api.base import RestApi
+class ProductGetRequest(RestApi):
+	def __init__(self,domain,port):
+		RestApi.__init__(self,domain, port)
+		self.cid = None
+		self.fields = None
+		self.product_id = None
+		self.props = None
+
+	def getapiname(self):
+		return 'taobao.product.get'
