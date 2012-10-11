@@ -1,0 +1,216 @@
+ import MySQLdb
+ 
+ # Note that this example uses UTF-8 encoding
+ conn = MySQLdb.connect(host='localhost', user='...', passwd='...', db='...', charset = "utf8", use_unicode = True)
+ cursor = conn.cursor()
+ 
+ 
+ cursor.execute ("SELECT * FROM cities")
+ rows = cursor.fetchall ()
+ 
+ for row in rows:
+   print "%s, %s" % (row[0], row[1].encode('utf-8'))
+ 
+ print "Number of rows returned: %d" % cursor.rowcount
+ 
+
+Don’t forget to close the cursor and connection, and if you’re inserting data commit before closing, because autocommit is disabled by default:
+
+ cursor.close ()
+ conn.commit ()
+ conn.close ()
+
+
+
+
+//http://www.kitebird.com/articles/pydbapi.html
+
+import MySQLdb
+
+conn = MySQLdb.connect (host = "localhost",user = "root",passwd = "wang",db = "mydb")
+
+cursor = conn.cursor ()
+cursor.execute ("SELECT VERSION()")
+row = cursor.fetchone ()
+print "server version:", row[0]
+cursor.close ()
+conn.close ()
+
+
+ % chmod +x server_version.py
+ % ./server_version.py
+
+
+//////////////////////////////////////////////////////////////////////
+try:
+     conn = MySQLdb.connect (host = "localhost",
+                             user = "root",
+                             passwd = "wang",
+                             db = "mydb")
+   except MySQLdb.Error, e:
+     print "Error %d: %s" % (e.args[0], e.args[1])
+     sys.exit (1)
+
+   cursor = conn.cursor ()
+   cursor.execute ("DROP TABLE IF EXISTS animal")
+   cursor.execute ("""
+       CREATE TABLE animal
+       (
+         name     CHAR(40),
+         category CHAR(40)
+       )
+     """)
+   cursor.execute ("""
+       INSERT INTO animal (name, category)
+       VALUES
+         ('snake', 'reptile'),
+         ('frog', 'amphibian'),
+         ('tuna', 'fish'),
+         ('racoon', 'mammal')
+     """)
+   print "Number of rows inserted: %d" % cursor.rowcount
+
+
+   cursor.execute ("SELECT name, category FROM animal")
+   while (1):
+     row = cursor.fetchone ()
+     if row == None:
+       break
+     print "%s, %s" % (row[0], row[1])#print "%s, %s" % row
+   print "Number of rows returned: %d" % cursor.rowcount
+
+
+   cursor.execute ("SELECT name, category FROM animal")
+   rows = cursor.fetchall ()
+   for row in rows:
+     print "%s, %s" % (row[0], row[1])
+   print "Number of rows returned: %d" % cursor.rowcount
+
+
+
+   cursor.close ()
+   cursor = conn.cursor (MySQLdb.cursors.DictCursor)
+   cursor.execute ("SELECT name, category FROM animal")
+   result_set = cursor.fetchall ()
+   for row in result_set:
+     print "%s, %s" % (row["name"], row["category"])
+   print "Number of rows returned: %d" % cursor.rowcount
+
+
+
+   cursor.execute ("""
+         UPDATE animal SET name = %s
+         WHERE name = %s
+       """, ("snake", "turtle"))
+   print "Number of rows updated: %d" % cursor.rowcount
+
+
+   cursor.close ()
+   conn.commit ()
+   conn.close ()
+
+
+
+
+//////////////////////////////////////////////////
+full code:
+
+
+
+   #!/usr/bin/python
+   # animal.py - create animal table and
+   # retrieve information from it
+
+   import sys
+   import MySQLdb
+
+   # connect to the MySQL server
+
+   try:
+     conn = MySQLdb.connect (host = "localhost",
+                             user = "testuser",
+                             passwd = "testpass",
+                             db = "test")
+   except MySQLdb.Error, e:
+     print "Error %d: %s" % (e.args[0], e.args[1])
+     sys.exit (1)
+
+   # create the animal table and populate it
+
+   try:
+     cursor = conn.cursor ()
+     cursor.execute ("DROP TABLE IF EXISTS animal")
+     cursor.execute ("""
+         CREATE TABLE animal
+         (
+           name     CHAR(40),
+           category CHAR(40)
+         )
+       """)
+     cursor.execute ("""
+         INSERT INTO animal (name, category)
+         VALUES
+           ('snake', 'reptile'),
+           ('frog', 'amphibian'),
+           ('tuna', 'fish'),
+           ('racoon', 'mammal')
+       """)
+     print "Number of rows inserted: %d" % cursor.rowcount
+
+   # perform a fetch loop using fetchone()
+
+     cursor.execute ("SELECT name, category FROM animal")
+     while (1):
+       row = cursor.fetchone ()
+       if row == None:
+         break
+       print "%s, %s" % (row[0], row[1])
+     print "Number of rows returned: %d" % cursor.rowcount
+
+   # perform a fetch loop using fetchall()
+
+     cursor.execute ("SELECT name, category FROM animal")
+     rows = cursor.fetchall ()
+     for row in rows:
+       print "%s, %s" % (row[0], row[1])
+     print "Number of rows returned: %d" % cursor.rowcount
+
+   # issue a statement that changes the name by including data values
+   # literally in the statement string, then change the name back
+   # by using placeholders
+
+     cursor.execute ("""
+           UPDATE animal SET name = 'turtle'
+           WHERE name = 'snake'
+         """)
+     print "Number of rows updated: %d" % cursor.rowcount
+
+     cursor.execute ("""
+           UPDATE animal SET name = %s
+           WHERE name = %s
+         """, ("snake", "turtle"))
+     print "Number of rows updated: %d" % cursor.rowcount
+
+   # create a dictionary cursor so that column values
+   # can be accessed by name rather than by position
+
+     cursor.close ()
+     cursor = conn.cursor (MySQLdb.cursors.DictCursor)
+     cursor.execute ("SELECT name, category FROM animal")
+     result_set = cursor.fetchall ()
+     for row in result_set:
+       print "%s, %s" % (row["name"], row["category"])
+     print "Number of rows returned: %d" % cursor.rowcount
+
+     cursor.close ()
+
+   except MySQLdb.Error, e:
+     print "Error %d: %s" % (e.args[0], e.args[1])
+     sys.exit (1)
+
+   conn.commit ()
+   conn.close ()
+
+
+http://www.kitebird.com/articles/pydbapi.html
+
