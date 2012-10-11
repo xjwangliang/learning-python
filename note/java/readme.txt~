@@ -1,0 +1,33 @@
+wget -c http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-i586.tar.gz 
+
+sudo tar zxvf ./jdk-7-linux-i586.tar.gz  -C /usr/lib/jvm
+cd /usr/lib/jvm
+sudo mv jdk1.7.0/ java-7-sun
+
+
+vim ~/.bashrc
+
+
+
+
+
+export JAVA_HOME=/home/wang/Desktop/C/jdk1.7.0_07
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
+
+source ~/.bashrc
+
+
+
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-7-sun/bin/java 300
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-7-sun/bin/javac 300
+sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/java-7-sun/bin/jar 300 
+sudo update-alternatives --install /usr/bin/javah javah /usr/lib/jvm/java-7-sun/bin/javah 300 
+sudo update-alternatives --install /usr/bin/javap javap /usr/lib/jvm/java-7-sun/bin/javap 300 
+
+
+
+
+sudo update-alternatives --config java  
