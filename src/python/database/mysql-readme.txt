@@ -41,9 +41,20 @@ MBP 自带的系统有有apache ,php,python  但是没有mysql ,于是需要自�
 alias mysql='/usr/local/mysql/bin/mysql'
 
 alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
+
+或者
+#mysql
+alias mysqlstart='sudo /Library/StartupItems/MySQLCOM/MySQLCOM restart'
+alias mysql='/usr/local/mysql/bin/mysql'
+alias mysqladmin='/usr/local/mysql/bin/mysqladmin'
+
 这样就可以在终端中比较简单地通过命令进行相应的操作，比如安装完毕之后MySQL的root默认密码为空，如果要设置密码可以在终端运行“mysqladmin -u root password "mysqlpassword"”来设置，其中mysqlpassword即root的密码。
 
 备注：使用PHP连接MySQL可能会报错“Can’t connect to local MySQL server through socket ‘/var/mysql/mysql.sock’”，或者使用localhost无法连接MySQL而需要127.0.0.1，原因是连接时候php默认去找/var/mysql/mysql.sock了，但是MAC版本的MYSQL改动了文件的位置，放在/tmp下了。处理办法是按如下修改php.ini：
+
+
+注意：Mac OS X的升级或其他原因可能会导致ＭySQL启动或开机自动运行时，在ＭySQL操作面板上会提示“Warning:The /usr/local/mysql/data directory is not owned by the 'mysql' or '_mysql' ”，这应该是某种情况下导致/usr/local/mysql/data的宿主发生了改变，只需要运行“sudo chown -R mysql /usr/local/mysql/data”即可。
+
 
 mysql.default_socket = /tmp/mysql.sock
 
