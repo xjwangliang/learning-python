@@ -1,0 +1,70 @@
+1. touch user{1,2,3,4,5,6,7,8,9}创建user1到user9共计9个文件
+2. mkdir test{1,2,3,4,5,6,7,8,9}创建test1到test9共计9个目录
+
+3. Shell 脚本
+
+#!/bin/sh
+var1=1
+while test $var1 -le $2
+do
+	mkdir $1$var1
+	var1=$(($var1+1))
+done	
+
+我用要把所有的*.hpp改为*.h，用命令rename hpp h *.hpp
+rename .hpp .h *.hpp 
+rename 's/.h$/.hpp/'
+for a in *.hpp;do mv "$a" "${a%pp}";done
+
+
+
+rename 's/A/Aa' A?
+rename 's/A/Aa;' A?
+
+?一个字符
+*多个字符
+[charset]一个字符 A[12] :A1或者A2
+
+for i in `seq 100`;do touch foo$i;done
+rename foo foo0 foo[9]*
+
+
+
+
+
+
+
+
+
+
+1、我想把它们的名字的第一个1个字母变为"q"，其它的不变
+
+[root@pps mailqueue]# for i in `ls`; do mv -f $i `echo $i | sed 's/^./q/'`; done
+
+或者写个脚本，显得更加清晰：
+
+    for file in `ls`  
+    do  
+      newfile =`echo $i | sed 's/^./q/'`  
+    　mv $file $newfile  
+    done 
+
+
+
+2、修改前面5个字母为zhaozh
+
+[root@pps mailqueue]# for i in `ls`; do mv -f $i `echo $i | sed 's/^...../zhaozh/'`; done
+
+3、修改后面5个字母为snail
+
+[root@pps mailqueue]# for i in `ls`; do mv -f $i `echo $i | sed 's/.....$/snail/'`; done
+
+4、在前面添加 _hoho_
+
+[root@pps mailqueue]# for i in `ls`; do mv -f $i `echo "_hoho_"$i`; done
+
+5、所有的小写字母变大写字母
+
+[root@pps mailqueue]# for i in `ls`; do mv -f $i `echo $i | tr a-z A-Z`; done
+
+上面是五中完成有关Linux批量重命名方法。
