@@ -297,6 +297,11 @@ sed 's/\([a-z]*\) \1/\1/'
 
 
 
+http://www.grymoire.com/Unix/Quote.html
+http://man.lupaworld.com/content/manage/ringkee/sed.htm
+http://api.t.sina.com.cn/oauth/authenticate
+http://www.grymoire.com/Unix/Regular.html
+http://www.grymoire.com/Unix/Sed.html#uh-0
 
 
 
