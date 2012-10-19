@@ -1,0 +1,11 @@
+
+Gathering Linux System Information
+### To see CPU information ###
+cat /proc/cpuinfo
+ 
+### To see memory information ###
+cat /proc/meminfo
+ 
+### To see Linux kernel version ### 
+cat /proc/version
+ 

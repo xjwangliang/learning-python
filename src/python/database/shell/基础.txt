@@ -11,7 +11,7 @@ http://bbs.chinaunix.net/thread-218853-1-1.html
 http://bbs.chinaunix.net/thread-452942-1-1.html
 http://bbs.chinaunix.net/thread-452942-1-1.html
 http://bbs.chinaunix.net/thread-3679733-1-1.html
-
+http://www.grymoire.com/Unix/Quote.html
 
 awk
 
@@ -387,7 +387,30 @@ http://man.lupaworld.com/content/manage/ringkee/awk.htm
 		
 		
 		#!/bin/sh
+		sed -n 's/'$1'/&/p'
+		sedgrep '[A-Z][A-Z]' <file。但是上面输入空格space，就会引起语法错误？，可以改成：		
+		
+		#!/bin/sh
 		sed -n 's/'"$1"'/&/p'
+		
+		
+		
+		#!/bin/sh
+		echo -n 'what is the value? '
+		read value
+		sed  's/XXX/'$value'/' <<EOF
+		The value is XXX
+		EOF
+		其中sed 's/XXX/'$value'/' <<EOF　will give a syntax error if the user types a space. Better form would be to use 
+
+		sed 's/XXX/'"$value"'/' <<EOF
+		
+	13>>Restricting to a line number
+		sed '3 s/[0-9][0-9]*//' <file >new
+		delete the first number on line 3,
+
+
+
 		
 		
 		
