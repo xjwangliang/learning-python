@@ -1,0 +1,140 @@
+http://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-cat-command-examples/
+语法
+	cat file1
+	cat > file2
+	cat file3 | command
+	cat file4 | grep something
+	
+	1、cat /etc/passswd
+	2、cat >foo.txt创建文件，输入内容然后ctrl+D结束(存在会覆盖)
+	3、cat score.txt names.txt > report.txt将前面文件的内容依次拷贝到后面的文件中(后面存在会覆盖掉,追加是>>)
+	4、cat >>foo.txt追加内容(不存在则创建)
+	5、cat -n filename同时输出行号（cat --number filename在mac下出错）
+	
+	cat *.c
+	cat *
+	
+	View Non-printing Characters
+	cat -T filename　display TAB characters as ^I,
+	—E（--show-ends）
+	-v（--show-nonprinting）
+	-A（-vET）show all
+	
+	上面只有-v在mac中有效
+	
+	bash for loop:
+	------------------------------------------------------------
+	#!/bin/bash
+	for f in /source/project10/*.pl
+	do
+	   echo "***** [Start $f ] ****"
+	   cat -n "$f"
+	   echo "***** [End $f ] ****"
+	done
+	------------------------------------------------------------
+	or ksh for loop:
+	------------------------------------------------------------
+	#!/bin/ksh
+	for f in $(ls /source/project10/*.pl)
+	do
+	        print "*** [Start $f ] ****"
+	        cat  "$f"
+	        print "*** [End $f ] ****"
+	done
+	------------------------------------------------------------
+	
+	Here Document:
+	cat <<HELPEOF
+	  Usage:
+	   opt1 : Do this
+	   opt2 : Do that
+	  HELPEOF
+	  
+	  
+	  
+	
+	
+	
+	dd bs=8k count=4 </dev/audio >testing123.au
+	cat testing123.au >/dev/audio
+	
+	dd命令需要查资料
+
+	可以一次往文件中写入多行
+	cat << EOF >abcd.txt 
+	cat << EOF >> abcd.sh
+------------------------------------------------------------------------------------------------------------------------
+	#!/bin/bash
+	# Author: Vivek Gite <http://www.cyberciti.biz/
+	# -----------------------------------------------
+	 
+	#Set default to my-dev-box
+	BASEDIR="/home/vivek/projects/bash/nginx-keepalived/chroot"
+	 
+	# Now switch to prod 
+	[[ $HOSTNAME == "lb2.nixcraft.net.in" ]] && BASEDIR="/etc/nixcraft/nginx/lb2"
+	[[ $HOSTNAME == "lb2.nixcraft.net.in" ]] && BASEDIR="/etc/nixcraft/nginx/lb1"
+	 
+	_profile="$BASEDIR/redhat.conf"
+	_etc_files="$BASEDIR/redhat.etc.files.conf"
+	_etc_dirs="$BASEDIR/redhat.etc.dirs.conf"
+	_hooks="$BASEDIR/hooks.sh"
+	 
+	usage(){
+	cat<<EOF
+	 Usage $0
+	  -e | --enable:        Enable the nginx-chroot environment
+	  -E | --upgrade:       Upgrade bind and libs in the nginx-chroot environment
+	  -p | --php:           Enable the php-cgi in the nginx-chroot environment
+	  -P | --phpupgrade:    Upgrade the php-cgi in the nginx-chroot environment
+	  -i | --info:          Display the php-cgi and nginx environment information such as version, users, connections etc
+	EOF
+	}
+	 
+	rootuser(){
+	        local uid=$(id -u)
+	        [[ $uid -ne 0 ]] && { echo "Only root may enable the nginx-chroot environment to the system."; exit 2; }
+	}
+	 
+	## function code removed to keep script short and sweet ##
+	enable_nginix_chroot(){
+		:
+	}
+	upgrade_nginx_chroot(){
+		:
+	}
+	enable_php_cgi_nginx_chroot(){
+		:
+	}
+	upgrade_php_cgi_nginx_chroot(){
+		:
+	}
+	 
+	get_nginx_chroot_info(){
+		:
+	}
+	 
+	# Make sure only root run this script
+	rootuser
+	 
+	# Load local hooks
+	[ -f "${_hooks}" ] && . ${_hooks}
+	 
+	# Load os specifc paths
+	source ${_profile}
+	 
+	# Main logic 
+	case $1 in
+	    -e|--enable)  	enable_nginix_chroot ;;
+	    -E|--upgrade) 	upgrade_nginx_chroot;;
+	    -p|--php)     	enable_php_cgi_nginx_chroot;;
+	    -P|--phpupgrade) 	upgrade_php_cgi_nginx_chroot;;
+	    -i|--info)          get_nginx_chroot_info;;
+	    *)            usage; exit 9999;
+	esac
+
+------------------------------------------------------------------------------------------------------------------------
+
+反转行Reverse
+tac fileName
+cat fileName | tac

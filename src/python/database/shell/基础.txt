@@ -1,215 +1,228 @@
 http://bbs.chinaunix.net/forum/viewtopic.php?t=434579&highlight=wingger
 
-ls -l:
-    d 目录。
-    l 符号链接(指向另一个文件)。
-    s 套接字文件。
-    b 块设备文件。
-    c 字符设备文件。
-    p 命名管道文件。
-    - 普通文件，或者更准确地说，不属于以上几种类型的文件。
-    
 
-chmod [who] operator [permission] filename
-who
-    u 文件属主权限。
-    g 属组用户权限。
-    o 其他用户权限。
-operator
-    a 所有用户(文件属主、属组用户及其他用户)。
-    + 增加权限。
-    - 取消权限。
-    = 设定权限。
-permission的含义：
-    r 读权限。
-    w 写权限。
-    x 执行权限。
-    s 文件属主和组set-ID。
-    t 粘性位*。
-    l 给文件加锁，使其他用户无法访问。
-    u,g,o 针对文件属主、属组用户及其他用户的操作。
-
-    *在列文件或目录时，有时会遇到“ t”位。“t”代表了粘性位。如果在一个目录上出现“t”位，这就意味着该目录中的文件只有其属主才可以删除，即使某个属组用户具有和属主同等的权限。不过有的系统在这一规则上并不十分严格。
-    如果在文件列表时看到“ t”，那么这就意味着该脚本或程序在执行时会被放在交换区(虚存)。
-    
-    
-    
-1,t 权限是粘着位，例：TMP目录下，任何人都有读写执行权限，但是不是任何人对里边的可写权限的文件就可以删除呢，当然不是了，这个就是粘着位的做用，只有所有者才有权删除自已的文件，当然，ROOT除外
-2,关于文件安全的另一种权限，
-	i权限 也就是不可修改权限  例：chattr u+i aaa 则aaa文件就不可修改，无论任何人，如果删除就用u-i就好了
-	a权限 也就是只追加权限， 对于日志系统很好用，这个权限让目标文件只能追加，不能删除，而且不能通过编辑器追加。方法和i权限一样加
-	如果想要看某个文件是不是有这个权限，用lsattr filename就行了 
-
-    chmod a-x temp //rw- rw- rw- 收回所有用户的执行权限
-    chmod og-w temp //rw- r-- r- - 收回属组用户和其他用户的写权限
-    chmod g+w temp //rw- rw- r- - 赋予属组用户写权限
-    chmod u+x temp //rwx rw- r- - 赋予文件属主执行权限
-    chmod go+x temp //rwx rwx r- x 赋予属组用户和其他用户执行权限
-    
-当创建temp文件时，它具有这样的权限
--rw-r--r--    1 root     root            0 10月 19 20:16 temp
-如果要使属主和属组用户具有有执行权限，并取消其他用户(所有其他用户)的写权限，可以用：
-    $ chmod ug+x temp
-    $ chmod o-w temp
-    
-如果希望一次设置目录下所有文件的权限，可以用：
-	$chmod 664*
-这将使文件属主和属组用户都具有读和写的权限，其他用户只具有读权限。
-
-还可以通过使用- R选项连同子目录下的文件一起设置：
-	chmod -R 664 /temp/*
-	                   
-系统默认情况下建立文件与目录的权限是：
-#vi /etc/bashrc 可以看到一般用户是002  root用户是022
-说明：一般用户默认建立文件权限是666-002=664   建立目录权限是777-002=775
-
-root默认建立文件的权限就是666-022=644   建立的目录权限就是777-022=755
-大家可以在机器上试试。也可以去改一下这个bashrc文件。看看有什么变化
-
-
-
-
-
-find pathname -options [-print -exec -ok]
-
-pathname:  find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录。
--print：     find命令将匹配的文件输出到标准输出。
--exec：     find命令对匹配的文件执行该参数所给出的s h e l l命令。相应命令的形式为' command' {} \;，注意{ }和\；之间的空格。
--ok：       和- e x e c的作用相同，只不过以一种更为安全的模式来执行该参数所给出的s h e l l命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。
--name：按照文件名查找文件。
--perm：按照文件权限来查找文件。
--prune：使用这一选项可以使f i n d命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被f i n d命令忽略。
--user： 按照文件属主来查找文件。
--group：按照文件所属的组来查找文件。
-
--mtime -n +n：按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前。F i n d命令还有- a t i m e和- c t i m e选项，但它们都和- m t i m e选项。
-
--nogroup：查找无有效所属组的文件，即该文件所属的组在/ e t c / g r o u p s中不存在。
--nouser：查找无有效属主的文件，即该文件的属主在/ e t c / p a s s w d中不存在。
-
--newer file1 ! file2：查找更改时间比文件f i l e 1新但比文件f i l e 2旧的文件。
-
--type 查找某一类型的文件，诸如：
-	b - 块设备文件。
-	d - 目录。
-	c - 字符设备文件。
-	p - 管道文件。
-	l - 符号链接文件。
-	f - 普通文件
-
-当前目录中查找所有文件名以.conf结尾、更改时间在5日以上的文件，并删除它们，只不过在删除之前先给出提示。
-find . -name "*.conf"  -mtime +5 -ok rm {} \;
-
-首先匹配所有文件名为“ passwd*”的文件，例如passwd、passwd.old、passwd.bak，然后执
-行grep命令看看在这些文件中是否存在一个sam用户。
-find /etc -name "passwd*" -exec grep "sam" {} \;
-
-
-在/logs目录中查找更改时间在5日以前的文件并删除它们：
-$ find logs -type f -mtime +5 -exec rm {} \;
-
-
-查找当前用户主目录下的所有文件，下面两种方法都可以使用
-    $ find $HOME -print
-    $ find ~ -print
-    
-为了在当前目录中文件属主具有读、写权限，并且文件所属组的用户和其他用户具有读权限的文件，可以用：
-	$ find . -type f -perm 644 -exec ls -l {} \;
-	
-为了查找系统中所有文件长度为0的普通文件，并列出它们的完整路径，可以用：
-	$ find / -type f -size 0 -exec ls -l {} \;
-查找/var/logs目录中更改时间在7日以前的普通文件，并在删除之前询问它们:
-	$ find /var/logs -type f -mtime +7 -ok rm {} \;
-为了查找系统中所有属于root组的文件，可以用：
-	$find . -group root -exec ls -l {} \;
-将删除当目录中访问时间在7日以来、含有数字后缀的admin.log文件。该命令只检查三位数字，所以相应文件的后缀不要超过999。
-	find . -name "admin.log[0-9][0-9][0-9]" -atime -7  -ok rm {} \;
-
-	find . -type d  |sort
-在当前目录下查找所有用户具有读、写和执行权限的文件，并收回相应的写权限
-	find . -perm -7 -print | xargs chmod o-w
-查找系统中的每一个普通文件，然后使用x a rg s命令来测试它们分别属于哪类文件
-	find . -type f -print | xargs file
-用g r e p命令在所有的普通文件中搜索hostname这个词：
-	find . -type f -print | xargs grep "hostname"
-
-要在/usr/sam目录下查找不在dir1子目录之内的所有文件
-    find /usr/sam -path "/usr/sam/dir1" -prune -o -print 
-避开多个文件夹 
-find /usr/sam \( -path /usr/sam/dir1 -o -path /usr/sam/file1 \) -prune -o -print 
-
-
+http://www.grymoire.com/Unix/Quote.html
+http://man.lupaworld.com/content/manage/ringkee/sed.htm
+http://api.t.sina.com.cn/oauth/authenticate
+http://www.grymoire.com/Unix/Regular.html
+http://www.grymoire.com/Unix/Sed.html#uh-0
 
 http://bbs.chinaunix.net/thread-218853-1-1.html
 http://bbs.chinaunix.net/thread-452942-1-1.html
 http://bbs.chinaunix.net/thread-452942-1-1.html
 http://bbs.chinaunix.net/thread-3679733-1-1.html
+http://www.grymoire.com/Unix/Quote.html
+
+awk
+
+http://www.staff.science.uu.nl/~oostr102/docs/nawk/nawk_toc.html
+http://www.vectorsite.net/tsawk.html
+http://www.grymoire.com/Unix/Awk.html
+http://fanqiang.chinaunix.net/program/other/2005-09-07/3621.shtml
+http://man.lupaworld.com/content/manage/ringkee/awk.htm
 
 
 
-
-awk '/M/  { print $1 }' a
-awk '/M/  { print "wangliang " $1 }' a
-awk '/M/  { print "wangliang " $2 }' a
-awk '{print NF}' a		??
-awk '{n++}END{print n" line"}' a  统计文本内容行数  
-awk 'END {print NR}'
-awk '{print NF}' grade.txt
-awk '/[Mm].*/' a   匹配M.*或者m.* 
-awk -F: '$1 ~ /^…i/ {print $0}' a   匹配第四个字符为i的行并显示 
-awk '/^...i/' a   匹配第四个字符为i的行并显示 
-
-
-文件grade.txt
-
-WangLiang 5/99 48311 Green 8 40 44
-J.Lulu 06/99 48317 green 9 24 26
-P.Bunny 02/99 48 Yellow 12 35 28
-J.Troll 07/99 4842 Brown-3 12 26 26
-L.Tansl 05/99   4712 Brown-2 12 30 28
-
-
-使用这种方法要注意，显示屏上不会显示输出结果。因为它直接输出到文件。只有在保证输出结果正确时才会使用这种方法。它也会重写硬盘上同名数据。
-	awk '{print $0}' grade.txt >wow
+一、ls
 	
-使用tee命令，在输出到文件的同时输出到屏幕。在测试输出结果正确与否时多使用这种方法
-	awk '{print $0}' grade.txt | tee wow
+	ls -l:
+	    d 目录。
+	    l 符号链接(指向另一个文件)。
+	    s 套接字文件。
+	    b 块设备文件。
+	    c 字符设备文件。
+	    p 命名管道文件。
+	    - 普通文件，或者更准确地说，不属于以上几种类型的文件。
+    
+二、chmod
+
+	chmod [who] operator [permission] filename
+	who
+	    u 文件属主权限。
+	    g 属组用户权限。
+	    o 其他用户权限。
+	operator
+	    a 所有用户(文件属主、属组用户及其他用户)。
+	    + 增加权限。
+	    - 取消权限。
+	    = 设定权限。
+	permission的含义：
+	    r 读权限。
+	    w 写权限。
+	    x 执行权限。
+	    s 文件属主和组set-ID。
+	    t 粘性位*。
+	    l 给文件加锁，使其他用户无法访问。
+	    u,g,o 针对文件属主、属组用户及其他用户的操作。
 	
-输出表头和表尾
-	awk 'BEGIN {print "Name Belt\n-----------------------------------"}{print $1"\t",$4} END {print "\n----------------------------------"}' grade.txt
+	    *在列文件或目录时，有时会遇到“ t”位。“t”代表了粘性位。如果在一个目录上出现“t”位，这就意味着该目录中的文件只有其属主才可以删除，即使某个属组用户具有和属主同等的权限。不过有的系统在这一规则上并不十分严格。
+	    如果在文件列表时看到“ t”，那么这就意味着该脚本或程序在执行时会被放在交换区(虚存)。
+	    
+	1,t 权限是粘着位，例：TMP目录下，任何人都有读写执行权限，但是不是任何人对里边的可写权限的文件就可以删除呢，当然不是了，这个就是粘着位的做用，只有所有者才有权删除自已的文件，当然，ROOT除外
+	2,关于文件安全的另一种权限，
+		i权限 也就是不可修改权限  例：chattr u+i aaa 则aaa文件就不可修改，无论任何人，如果删除就用u-i就好了
+		a权限 也就是只追加权限， 对于日志系统很好用，这个权限让目标文件只能追加，不能删除，而且不能通过编辑器追加。方法和i权限一样加
+		如果想要看某个文件是不是有这个权限，用lsattr filename就行了 
 	
-grade.txte第四列中带有BROWN,则打印信息
-	awk '{if ($4~/Brown/) print $0}' grade.txt
-精确匹配,同上,只是将~改为==
-	awk '{if ($4==/Brown/) print $0}' grade.txt
+	    chmod a-x temp //rw- rw- rw- 收回所有用户的执行权限
+	    chmod og-w temp //rw- r-- r- - 收回属组用户和其他用户的写权限
+	    chmod g+w temp //rw- rw- r- - 赋予属组用户写权限
+	    chmod u+x temp //rwx rw- r- - 赋予文件属主执行权限
+	    chmod go+x temp //rwx rwx r- x 赋予属组用户和其他用户执行权限
+	    
+	当创建temp文件时，它具有这样的权限
+	-rw-r--r--    1 root     root            0 10月 19 20:16 temp
+	如果要使属主和属组用户具有有执行权限，并取消其他用户(所有其他用户)的写权限，可以用：
+	    $ chmod ug+x temp
+	    $ chmod o-w temp
+	    
+	如果希望一次设置目录下所有文件的权限，可以用：
+		$chmod 664*
+	这将使文件属主和属组用户都具有读和写的权限，其他用户只具有读权限。
 	
-
-awk '$4~/(Green|Brown)/' grade.txt
-
-
-	awk '{print NR,NF,$0} END {print FILENAME}' grade.txt
-1 7 WangLiang 5/99 48311 Green 8 40 44
-2 7 J.Lulu 06/99 48317 green 9 24 26
-3 7 P.Bunny 02/99 48 Yellow 12 35 28
-4 7 J.Troll 07/99 4842 Brown-3 12 26 26
-5 7 L.Tansl 05/99   4712 Brown-2 12 30 28
-
-	awk '{if((NR>0) && ($4~/Brown/)) print $0}' grade.txt
-
-
-	awk '{if($1=="WangLiang")($1="WangLiang2222");print $1}' grade.txt
-WangLiang2222
-J.Lulu
-P.Bunny
-J.Troll
-L.Tansl
-Han
-
-	awk '{if($1=="WangLiang"){$1="WangLiang2222";print $1}}' grade.txt
-WangLiang2222
+	还可以通过使用- R选项连同子目录下的文件一起设置：
+		chmod -R 664 /temp/*
+		                   
+	系统默认情况下建立文件与目录的权限是：
+	#vi /etc/bashrc 可以看到一般用户是002  root用户是022
+	说明：一般用户默认建立文件权限是666-002=664   建立目录权限是777-002=775
+	
+	root默认建立文件的权限就是666-022=644   建立的目录权限就是777-022=755
+	大家可以在机器上试试。也可以去改一下这个bashrc文件。看看有什么变化
 
 
 
+三、chown
+四、find
+	find pathname -options [-print -exec -ok]
+	
+	pathname:  find命令所查找的目录路径。例如用.来表示当前目录，用/来表示系统根目录。
+	-print：     find命令将匹配的文件输出到标准输出。
+	-exec：     find命令对匹配的文件执行该参数所给出的s h e l l命令。相应命令的形式为' command' {} \;，注意{ }和\；之间的空格。
+	-ok：       和- e x e c的作用相同，只不过以一种更为安全的模式来执行该参数所给出的s h e l l命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行。
+	-name：按照文件名查找文件。
+	-perm：按照文件权限来查找文件。
+	-prune：使用这一选项可以使f i n d命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被f i n d命令忽略。
+	-user： 按照文件属主来查找文件。
+	-group：按照文件所属的组来查找文件。
+	
+	-mtime -n +n：按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前。F i n d命令还有- a t i m e和- c t i m e选项，但它们都和- m t i m e选项。
+	
+	-nogroup：查找无有效所属组的文件，即该文件所属的组在/ e t c / g r o u p s中不存在。
+	-nouser：查找无有效属主的文件，即该文件的属主在/ e t c / p a s s w d中不存在。
+	
+	-newer file1 ! file2：查找更改时间比文件f i l e 1新但比文件f i l e 2旧的文件。
+	
+	-type 查找某一类型的文件，诸如：
+		b - 块设备文件。
+		d - 目录。
+		c - 字符设备文件。
+		p - 管道文件。
+		l - 符号链接文件。
+		f - 普通文件
+	
+	当前目录中查找所有文件名以.conf结尾、更改时间在5日以上的文件，并删除它们，只不过在删除之前先给出提示。
+	find . -name "*.conf"  -mtime +5 -ok rm {} \;
+	
+	首先匹配所有文件名为“ passwd*”的文件，例如passwd、passwd.old、passwd.bak，然后执
+	行grep命令看看在这些文件中是否存在一个sam用户。
+	find /etc -name "passwd*" -exec grep "sam" {} \;
+	
+	
+	在/logs目录中查找更改时间在5日以前的文件并删除它们：
+	$ find logs -type f -mtime +5 -exec rm {} \;
+	
+	
+	查找当前用户主目录下的所有文件，下面两种方法都可以使用
+	    $ find $HOME -print
+	    $ find ~ -print
+	    
+	为了在当前目录中文件属主具有读、写权限，并且文件所属组的用户和其他用户具有读权限的文件，可以用：
+		$ find . -type f -perm 644 -exec ls -l {} \;
+		
+	为了查找系统中所有文件长度为0的普通文件，并列出它们的完整路径，可以用：
+		$ find / -type f -size 0 -exec ls -l {} \;
+	查找/var/logs目录中更改时间在7日以前的普通文件，并在删除之前询问它们:
+		$ find /var/logs -type f -mtime +7 -ok rm {} \;
+	为了查找系统中所有属于root组的文件，可以用：
+		$find . -group root -exec ls -l {} \;
+	将删除当目录中访问时间在7日以来、含有数字后缀的admin.log文件。该命令只检查三位数字，所以相应文件的后缀不要超过999。
+		find . -name "admin.log[0-9][0-9][0-9]" -atime -7  -ok rm {} \;
+	
+		find . -type d  |sort
+	在当前目录下查找所有用户具有读、写和执行权限的文件，并收回相应的写权限
+		find . -perm -7 -print | xargs chmod o-w
+	查找系统中的每一个普通文件，然后使用x a rg s命令来测试它们分别属于哪类文件
+		find . -type f -print | xargs file
+	用g r e p命令在所有的普通文件中搜索hostname这个词：
+		find . -type f -print | xargs grep "hostname"
+	
+	要在/usr/sam目录下查找不在dir1子目录之内的所有文件
+	    find /usr/sam -path "/usr/sam/dir1" -prune -o -print 
+	避开多个文件夹 
+	find /usr/sam \( -path /usr/sam/dir1 -o -path /usr/sam/file1 \) -prune -o -print 
+
+
+五、awk
+	awk '/M/  { print $1 }' a
+	awk '/M/  { print "wangliang " $1 }' a
+	awk '/M/  { print "wangliang " $2 }' a
+	awk '{print NF}' a		??
+	awk '{n++}END{print n" line"}' a  统计文本内容行数  
+	awk 'END {print NR}'
+	awk '{print NF}' grade.txt
+	awk '/[Mm].*/' a   匹配M.*或者m.* 
+	awk -F: '$1 ~ /^…i/ {print $0}' a   匹配第四个字符为i的行并显示 
+	awk '/^...i/' a   匹配第四个字符为i的行并显示 
+	
+	
+	文件grade.txt
+	
+	WangLiang 5/99 48311 Green 8 40 44
+	J.Lulu 06/99 48317 green 9 24 26
+	P.Bunny 02/99 48 Yellow 12 35 28
+	J.Troll 07/99 4842 Brown-3 12 26 26
+	L.Tansl 05/99   4712 Brown-2 12 30 28
+	
+	
+	使用这种方法要注意，显示屏上不会显示输出结果。因为它直接输出到文件。只有在保证输出结果正确时才会使用这种方法。它也会重写硬盘上同名数据。
+		awk '{print $0}' grade.txt >wow
+		
+	使用tee命令，在输出到文件的同时输出到屏幕。在测试输出结果正确与否时多使用这种方法
+		awk '{print $0}' grade.txt | tee wow
+		
+	输出表头和表尾
+		awk 'BEGIN {print "Name Belt\n-----------------------------------"}{print $1"\t",$4} END {print "\n----------------------------------"}' grade.txt
+		
+	grade.txte第四列中带有BROWN,则打印信息
+		awk '{if ($4~/Brown/) print $0}' grade.txt
+	精确匹配,同上,只是将~改为==
+		awk '{if ($4==/Brown/) print $0}' grade.txt
+		
+	
+	awk '$4~/(Green|Brown)/' grade.txt
+	
+	
+		awk '{print NR,NF,$0} END {print FILENAME}' grade.txt
+	1 7 WangLiang 5/99 48311 Green 8 40 44
+	2 7 J.Lulu 06/99 48317 green 9 24 26
+	3 7 P.Bunny 02/99 48 Yellow 12 35 28
+	4 7 J.Troll 07/99 4842 Brown-3 12 26 26
+	5 7 L.Tansl 05/99   4712 Brown-2 12 30 28
+	
+		awk '{if((NR>0) && ($4~/Brown/)) print $0}' grade.txt
+	
+	
+		awk '{if($1=="WangLiang")($1="WangLiang2222");print $1}' grade.txt
+	WangLiang2222
+	J.Lulu
+	P.Bunny
+	J.Troll
+	L.Tansl
+	Han
+	
+		awk '{if($1=="WangLiang"){$1="WangLiang2222";print $1}}' grade.txt
+	WangLiang2222
 
 
 
@@ -217,7 +230,11 @@ WangLiang2222
 
 
 
+
+
+六、sed
 [sed命令]
+<<<<<<< HEAD
 http://www.grymoire.com/Unix/Sed.html#uh-0（Do not fret! It is not your fault you don't understand sed. I will cover sed completely. But I will describe the features in the order that I learned them. I didn't learn everything at once. You don't need to either.）
 
 The substitute command changes all occurrences of the regular expression into a new value. A simple example is changing "day" in the "old" file to "night" in the "new" file:
@@ -305,12 +322,189 @@ cat old |sed -n '/\([a-z][a-z]*\) \1/p'打印有相邻单词重复的行
 10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at dalvik.system.NativeStart.main(Native Method)
 
 
+=======
+	http://www.grymoire.com/Unix/Sed.html#uh-0（Do not fret! It is not your fault you don't understand sed. I will cover sed completely. But I will describe the features in the order that I learned them. I didn't learn everything at once. You don't need to either.）
+	
+	The substitute command changes all occurrences of the regular expression into a new value. A simple example is changing "day" in the "old" file to "night" in the "new" file:
+	
+	1 >>The essential command: s for substitution
+		sed s/day/night/ <old >new
+		sed s/day/night/ old >new
+		echo day | sed s/day/night/ 
+		echo Sunday | sed 's/day/night/'    result:sunnight 
+	上面没引号也是对的，但是最好不要这样
+	
+	2 >>The slash as a delimiter斜线转义
+	sed 's/\/usr\/local\/bin/\/common\/bin/' <old >new
+	echo /usr/local/bin/wangliang | sed 's/\/usr\/local\/bin/\/common\/bin/' 
+	
+	或者使用下划线underline、分号colon或者|做分隔符
+	sed 's_/usr/local/bin_/common/bin_' <old >new
+	echo /usr/local/bin/wangliang|sed 's_/usr/local/bin_/common/bin_'
+	
+	sed 's:/usr/local/bin:/common/bin:' <old >new
+	echo /usr/local/bin/wangliang | sed 's:/usr/local/bin:/common/bin:' 
+	
+	sed 's|/usr/local/bin|/common/bin|' <old >new
+	echo /usr/local/bin/wangliang | sed 's|/usr/local/bin|/common/bin|'
+	
+	
+	3 >>Using & as the matched string
+	
+		echo abcd | sed 's/abc/(abc)/'
+		sed 's/[a-z]*/(&)/' <old >new
+		echo "123 abc" | sed 's/[0-9]*/& &/'	　result:123 123 abc
+		echo "123 abc" | sed 's/[0-9]*/(&)/'	  result:(123) abc
+		
+		echo "abc 123" | sed 's/[a-z]*/(&)/'	  result:(abc) 123
+		
+		echo "abc 123" | sed 's/[0-9]*/& &/'	  result: abc 123(有一个空格)　 *
+		echo "123 abc" | sed 's/[a-z]*/(&)/'      result:()123 abc			   *	
+		
+		echo "123 abc" | sed 's/[a-z][a-z]*/(&)/' result:123 (abc)
+		echo "123 abc" | sed 's/[0-9][0-9]*/(&)/' result:(123) abc
+		
+		echo "abc 123" | sed 's/[a-z][a-z]*/(&)/' result:(abc) 123
+		echo "abc 123" | sed 's/[0-9][0-9]*/(&)/' result:abc (123)
+		
+		The original sed did not support the "+" metacharacter. GNU sed does if you use the "-r" command line option, which enables extended regular expressions. (Mac不支持)
+		echo "123 abc" | sed -r 's/[0-9]+/& &/'
+		
+		说明：*出奇怪的现象解释。* 表示匹配０次或多次，那么在０次匹配时但是１一次不匹配，就直接在０次匹配结束；如果n(>0)次匹配，n+1次也匹配，那么继续匹配，否则停止（greedy）。所以
+		在echo "abc 123" | sed 's/[0-9]*/& &/'中首先[0-9]*匹配行首的“空”，但是不再匹配第一个字母a，所以终止。而
+		在echo "123 abc" | sed 's/[a-z][a-z]*/(&)/' result:123 (abc)中[a-z][a-z]*会一直匹配到123，所以
+	
+	４>>Using \1 to keep part of the pattern
+		echo abcd123 | sed 's/\([a-z]*\).*/\1/'  result:abcd
+		替换两个单词
+		sed 's/\([a-z]*\) \([a-z]*\)/\2 \1/'  
+		However, this will do nothing if a single word is found, or any lines with no letters. You may want to insist that words have at least one letter by using   
+		sed 's/\([a-z][a-z]*\) \([a-z][a-z]*\)/\2 \1/'
+		eliminate duplicated words, you can try:
+		sed 's/\([a-z]*\) \1/\1/'
+		交换前三个字符
+		echo '王wangliang'|sed 's/^\(.\)\(.\)\(.\)/\3\2\1/'
+		检测开头有重复单词的行(注意空格，而且没有s以及最后没有/，/p表示print)
+		cat 1015noon|sed -n '/\([a-z][a-z]*\) \1/p'
 
-http://www.grymoire.com/Unix/Quote.html
-http://man.lupaworld.com/content/manage/ringkee/sed.htm
-http://api.t.sina.com.cn/oauth/authenticate
-http://www.grymoire.com/Unix/Regular.html
-http://www.grymoire.com/Unix/Sed.html#uh-0
+	5>>/g
+		echo '王wangliang　helloworld'|sed 's/[^ ]*/(&)/'        result:(王wangliang　helloworld)　其中[^ ]匹配除了空格(space)之外的任意字符
+		cat 1015noon|sed 's/[^ ][^ ]*/(&)/g'       每个单词加上括号(空格不会加上)
+		cat 1015noon|sed 's/[^ ]*/(&)/'				行首每个单词加上括号（如果以空格开头则在开头加一个括号）
+	6>>不回溯recursive
+		sed 's/loop/loop the loop/g' <old >new不会无限替换，因为s/不会扫描新的输出The "s" command will not scan the newly created output.
+		
+	７>>/1, /2匹配的位置
+		keeps the first word on the line but deletes the second:
+		sed 's/\([a-zA-Z]*\) \([a-zA-Z]*\) /\1 /' <old >new相当于
+		sed 's/[a-zA-Z]* //2' <old >new
+		
+		echo 'wang liang hello world' | sed 's/\([a-zA-Z]*\) \([a-zA-Z]*\) /\1 /'	result:wang hello world
+		echo 'wang liang hello world' | sed 's/[a-zA-Z]* //2'		   				result:wang hello world
+		echo 'wang liang hello world' | sed 's/[a-zA-Z]* /DELETED /2'  				result:wang DELETED hello world
+		echo 'wang liang hello world' | sed 's/[a-zA-Z]* /DELETED /g'  				result:ELETED DELETED DELETED world
+		
+		
+		在mac中/2g会出错；'s/[a-zA-Z]* /DELETED /g' 中'a-zA-Z]* '有空格，后面'DELETED '也有，因为没空格可能会耗时(bug)
+		
+		sed 's/./&:/80' <file >new第八十个字符后面加冒号:
+	8>>/p - print /n no printing
+		默认打印替换后的内容，-n不会打印;-n和/p一起用则打印修改的内容
+		sed -n 's/wang/&/p' <1015noon
+		
+		
+	9>>/w 
+		sed -n 's/^[0-9]*[02468] /&/w even' <file 
+		cat 1015noon| sed -n '/^[a-z][a-z]*/p' 
+		cat 1015noon| sed  '/^[a-z][a-z]*/w tmp' 
+	10>>多个命令
+		sed 's/BEGIN/begin/' <old | sed 's/END/end/' >new
+		相当于（一次性多个替换）
+		sed -e 's/a/A/' -e 's/b/B/' <old >new
+		
+	11>>多个文件 If there is more than one argument to sed that does not start with an option, it must be a filename
+		查找f1、f2、f3三个文件，寻找#开头的行，然后替成空；gre查找过滤掉空行，然后wc计算剩下行的数量（就是计算3个文件中非以#开头的行的总数）
+		sed 's/^#.*//'  f1 f2 f3 | grep -v '^$' | wc -l
+		sed -e 's/^#.*//'  f1 f2 f3 | grep -v '^$' | wc -l
+		
+	12>>-f
+		sed -f sedscript <old >new
+		其中sedscript文件
+		
+		# sed comment - This script changes lower case vowels to upper case
+		s/a/A/g
+		s/e/E/g
+		s/i/I/g
+		s/o/O/g
+		s/u/U/g
+		
+		还可以这样
+		sed -e 's/a/A/g' \
+	    -e 's/e/E/g' \
+	    -e 's/i/I/g' \
+	    -e 's/o/O/g' \
+	    -e 's/u/U/g'  <old >new
+	    
+	    
+	    在C shell中
+	    
+	    #!/bin/csh -f
+		sed 's/a/A/g  \
+		s/e/E/g \
+		s/i/I/g \
+		s/o/O/g \
+		s/u/U/g'  <old >new
+		
+		在Bourne shell中
+
+		#!/bin/sh
+		sed '
+		s/a/A/g 
+		s/e/E/g 
+		s/i/I/g 
+		s/o/O/g 
+		s/u/U/g'  <old >new
+		
+		或者做成一个命令
+		#!/bin/sed -f
+		s/a/A/g
+		s/e/E/g
+		s/i/I/g
+		s/o/O/g
+		s/u/U/g
+		保存成sedCmd,那么执行sedCmd <old >new
+		
+		
+		#!/bin/sh
+		sed -n 's/'$1'/&/p'
+		sedgrep '[A-Z][A-Z]' <file。但是上面输入空格space，就会引起语法错误？，可以改成：		
+		
+		#!/bin/sh
+		sed -n 's/'"$1"'/&/p'
+		
+		
+		
+		#!/bin/sh
+		echo -n 'what is the value? '
+		read value
+		sed  's/XXX/'$value'/' <<EOF
+		The value is XXX
+		EOF
+		其中sed 's/XXX/'$value'/' <<EOF　will give a syntax error if the user types a space. Better form would be to use 
+
+		sed 's/XXX/'"$value"'/' <<EOF
+		
+	13>>Restricting to a line number
+		sed '3 s/[0-9][0-9]*//' <file >new
+		delete the first number on line 3,
+
+
+
+		
+		
+		
+>>>>>>> 62b2f71a073c5e4d19ce4610d69b12ccdc56d3fb
+
 
 
 

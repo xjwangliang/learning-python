@@ -1,0 +1,126 @@
+创建空文件
+>newfile.name
+touch newfile.name
+
+|------------------------------------|
+|here documents  					 |
+|------------------------------------|
+http://bash.cyberciti.biz/guide/Here_documents
+
+
+	command <<HERE
+	text1
+	text2
+	testN
+	$varName
+	HERE
+	
+This type of redirection tells the shell to read input from the current source (HERE) until a line containg only word (HERE) is seen. HERE word is not subjected to variable name, parameter expansion, arithmetic expansion, pathname expansion, or command substitution. All of the lines read up to that point are then used as the standard input for a command. Files are processed in this manner are commonly called here documents.
+
+1、count the words for input:
+echo 'This is a test.' | wc -w
+
+2、wc -w <<EOF以ctrl+D结束或者最后一行输入EOF结束
+
+
+例子（但是mac好像没有效果）
+------------------------------------------------------------------------------------
+	For example, write an email using the mail command. Create a shell script called tapebackup1.sh:
+	#!/bin/bash
+	# run tar command and dump data to tape
+	tar -cvf /dev/st0 /www /home 2>/dev/null
+	 
+	# Okay find out if tar was a success or a failure 
+	[ $? -eq 0 ] && status="Success!" || status="Failed!!!"
+	 
+	# write an email to admin 
+	mail -s 'Backup status' vivek@nixcraft.co.in<<END_OF_EMAIL
+	 
+	The backup job finished.
+	 
+	End date: $(date)
+	Hostname : $(hostname)
+	Status : $status
+	 
+	END_OF_EMAIL
+	
+------------------------------------------------------------------------------------
+
+|------------------------------------|
+|/dev/null discards unwanted output  |
+|------------------------------------|
+
+grep vivek /etc/passwd && echo "Vivek found" || "Vivek not found"
+mac这样会出错，
+grep vivek /etc/passwd && echo "Vivek found" || echo "Vivek not found"
+
+grep wa /etc/passwd >/dev/null && echo "Vivek found" || echo "Vivek not found"这个不会输出找到的内容了
+解释
+command >/dev/null　This syntax redirects the command standard output messages to /dev/null where it is ignored by the shell
+command 2>/dev/null　This syntax redirects the command error output messages to /dev/null where it is ignored by the shell
+command &>/dev/null　This syntax redirects both standard output and error output messages to /dev/null where it is ignored by the shell.
+
+
+
+例子
+------------------------------------------------------------------------------------
+	#!/bin/bash
+	# set var 
+	PASSWD_FILE=/etc/passwd
+	#PASSWD_FILE=./user.txt
+	# get user name
+	read -p "Enter a user name : " username
+	 
+	# try to locate username in in /etc/passwd 
+	# 
+	grep "^$username" $PASSWD_FILE > /dev/null
+	 
+	# store exit status of grep
+	# if found grep will return 0 exit stauts
+	# if not found, grep will return a nonzero exit stauts
+	status=$?
+	 
+	if test $status -eq 0
+	then
+		echo "User '$username' found in $PASSWD_FILE file."
+	else
+		echo "User '$username' not found in $PASSWD_FILE file."
+	fi
+------------------------------------------------------------------------------------
+
+
+|------------------------------------|
+|here String	  					 |
+|------------------------------------|
+
+
+
+	command <<<$word或者command arg1 <<<"$word"
+	例子
+	1、wc -w <<< "This is a test."输出４
+	2、Usually, you can not grep into a $var. For example, try to grep word "nor" using $var:
+	var="Neither in this world nor elsewhere is there any happiness in store for him who always doubts."
+	grep "nor" $var
+	但是可以这样
+	grep "nor" <<<$var >/dev/null && echo "Found" || echo "Not found"
+	使用管道pipes也可以达到同样的效果
+	echo $var | grep -q "nor"  && echo "Found" || echo "Not found"
+	3、
+	The following command counts the total active network interfaces:
+	wc -w <<<$(netstat -i | cut -d" " -f1 | egrep -v "^Kernel|Iface|lo")
+	
+	cut、egrep需要查资料
+|------------------------------------|
+|Redirection of standard error	  	 |
+|------------------------------------|
+
+	command-name 2>error.log
+	Append To Error Log
+		command-name 2>>error.log
+|------------------------------------|
+|Redirection of standard output	  	 |
+|------------------------------------|
+	date > now.txt
+	cat file.txt > /dev/lp0或者sudo bash -c "cat file.txt > /dev/lp0"
+	echo "Today is $(date)" 1>/tmp/now.txt
+	date >> now.txt
