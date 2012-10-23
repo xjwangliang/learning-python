@@ -130,4 +130,31 @@ select * from favor_list_category;
 
 select * from favor_list;
  
+A) If you are using mysql on RedHat Linux (Fedora Core/Cent OS) then use following command:
 
+* To start mysql server:
+
+/etc/init.d/mysqld start
+* To stop mysql server:
+
+/etc/init.d/mysqld stop
+* To restart mysql server
+
+ /etc/init.d/mysqld restart
+Tip: Redhat Linux also supports service command, which can be use to start, restart, stop any service:
+
+# service mysqld start
+# service mysqld stop
+# service mysqld restart
+(B) If you are using mysql on Debian / Ubuntu Linux then use following command:
+
+* To start mysql server:
+
+/etc/init.d/mysql start
+* To stop mysql server:
+
+/etc/init.d/mysql stop
+
+* To restart mysql server
+/etc/init.d/mysql restart
+http://theos.in/desktop-linux/tip-that-matters/how-do-i-restart-mysql-server/

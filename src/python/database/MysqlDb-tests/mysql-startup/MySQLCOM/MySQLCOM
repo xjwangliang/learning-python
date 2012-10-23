@@ -51,3 +51,45 @@ if test -x $SCRIPT ; then
 else
 	ConsoleMessage "Could not find MySQL startup script!"
 fi
+
+
+
+
+
+
+
+delete from api_session_key where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_avatar where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_cardcomment where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_setpassword where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_userprofile where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_taobaotoken where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_sinatoken where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+
+delete from auth_user where email ='shigushuyuan@sina.cn';
+
+
+delete from api_session_key where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_avatar where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_cardcomment where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_setpassword where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_userprofile where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_taobaotoken where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+delete from qin_sinatoken where user_id = (select id from auth_user where email='shigushuyuan@sina.cn');
+
+delete from auth_user where email ='shigushuyuan@sina.cn';
+
+
+
+delete from api_session_key where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_avatar where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_cardcomment where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_setpassword where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_userprofile where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_taobaotoken where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_sinatoken where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_invite where invitee_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_user_card_candidate_operate where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+delete from qin_card_candidate where user_id = (select id from auth_user where email='shigushuyuan@gmail.com');
+
+delete from auth_user where email ='shigushuyuan@gmail.com';
