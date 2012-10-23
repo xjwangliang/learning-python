@@ -234,6 +234,95 @@ http://man.lupaworld.com/content/manage/ringkee/awk.htm
 
 六、sed
 [sed命令]
+<<<<<<< HEAD
+http://www.grymoire.com/Unix/Sed.html#uh-0（Do not fret! It is not your fault you don't understand sed. I will cover sed completely. But I will describe the features in the order that I learned them. I didn't learn everything at once. You don't need to either.）
+
+The substitute command changes all occurrences of the regular expression into a new value. A simple example is changing "day" in the "old" file to "night" in the "new" file:
+
+1 >>The essential command: s for substitution
+	sed s/day/night/ <old >new
+	sed s/day/night/ old >new
+	echo day | sed s/day/night/ 
+	echo Sunday | sed 's/day/night/'    result:sunnight 
+上面没引号也是对的，但是最好不要这样
+
+2 >>The slash as a delimiter斜线转义
+sed 's/\/usr\/local\/bin/\/common\/bin/' <old >new
+echo /usr/local/bin/wangliang | sed 's/\/usr\/local\/bin/\/common\/bin/' 
+
+或者使用下划线underline、分号colon或者|做分隔符
+sed 's_/usr/local/bin_/common/bin_' <old >new
+echo /usr/local/bin/wangliang|sed 's_/usr/local/bin_/common/bin_'
+
+sed 's:/usr/local/bin:/common/bin:' <old >new
+echo /usr/local/bin/wangliang | sed 's:/usr/local/bin:/common/bin:' 
+
+sed 's|/usr/local/bin|/common/bin|' <old >new
+echo /usr/local/bin/wangliang | sed 's|/usr/local/bin|/common/bin|'
+
+
+3 >>Using & as the matched string
+
+echo abcd | sed 's/abc/(abc)/'
+sed 's/[a-z]*/(&)/' <old >new
+echo "123 abc" | sed 's/[0-9]*/& &/'	　result:123 123 abc
+echo "123 abc" | sed 's/[0-9]*/(&)/'	  result:(123) abc
+
+echo "abc 123" | sed 's/[a-z]*/(&)/'	  result:(abc) 123
+
+echo "abc 123" | sed 's/[0-9]*/& &/'	  result: abc 123(有一个空格)　 *
+echo "123 abc" | sed 's/[a-z]*/(&)/'      result:()123 abc			   *	
+
+echo "123 abc" | sed 's/[a-z][a-z]*/(&)/' result:123 (abc)
+echo "123 abc" | sed 's/[0-9][0-9]*/(&)/' result:(123) abc
+
+echo "abc 123" | sed 's/[a-z][a-z]*/(&)/' result:(abc) 123
+echo "abc 123" | sed 's/[0-9][0-9]*/(&)/' result:abc (123)
+
+The original sed did not support the "+" metacharacter. GNU sed does if you use the "-r" command line option, which enables extended regular expressions. (Mac不支持)
+echo "123 abc" | sed -r 's/[0-9]+/& &/'
+
+说明：*出奇怪的现象解释。* 表示匹配０次或多次，那么在０次匹配时但是１一次不匹配，就直接在０次匹配结束；如果n(>0)次匹配，n+1次也匹配，那么继续匹配，否则停止（greedy）。所以
+在echo "abc 123" | sed 's/[0-9]*/& &/'中首先[0-9]*匹配行首的“空”，但是不再匹配第一个字母a，所以终止。而
+在echo "123 abc" | sed 's/[a-z][a-z]*/(&)/' result:123 (abc)中[a-z][a-z]*会一直匹配到123，所以
+
+４>>Using \1 to keep part of the pattern
+echo abcd123 | sed 's/\([a-z]*\).*/\1/'  result:abcd
+替换两个单词
+sed 's/\([a-z]*\) \([a-z]*\)/\2 \1/'  
+However, this will do nothing if a single word is found, or any lines with no letters. You may want to insist that words have at least one letter by using   
+sed 's/\([a-z][a-z]*\) \([a-z][a-z]*\)/\2 \1/'
+eliminate duplicated words, you can try:
+sed 's/\([a-z]*\) \1/\1/'
+
+检测重复到单词
+sed -n '/\([a-z][a-z]*\) \1/p'
+例子echo 'wang han wang'|sed 's/\([a-z]*\) \1/\1/'去掉相邻到的重复到单词
+
+
+echo 'wang wang han wang\n andb kk'|sed -n '/\([a-z][a-z]*\) \1/p'
+
+cat old |sed -n '/\([a-z][a-z]*\) \1/p'打印有相邻单词重复的行
+
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): Transmitting stack trace: android.view.WindowManager$BadTokenException: Unable to add window -- token android.os.BinderProxy@406b5f20 is not valid; is your activity running?
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.view.ViewRoot.setView(ViewRoot.java:530)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:177)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:91)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.view.Window$LocalWindowManager.addView(Window.java:424)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.app.Dialog.show(Dialog.java:241)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.app.AlertDialog$Builder.show(AlertDialog.java:875)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.webkit.CallbackProxy.handleMessage(CallbackProxy.java:520)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.os.Handler.dispatchMessage(Handler.java:99)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.os.Looper.loop(Looper.java:130)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at android.app.ActivityThread.main(ActivityThread.java:3703)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at java.lang.reflect.Method.invokeNative(Native Method)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at java.lang.reflect.Method.invoke(Method.java:507)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:866)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:624)
+10-17 18:09:04.110: D/com.guoku.ExceptionsHandler(21636): 	at dalvik.system.NativeStart.main(Native Method)
+
+
+=======
 	http://www.grymoire.com/Unix/Sed.html#uh-0（Do not fret! It is not your fault you don't understand sed. I will cover sed completely. But I will describe the features in the order that I learned them. I didn't learn everything at once. You don't need to either.）
 	
 	The substitute command changes all occurrences of the regular expression into a new value. A simple example is changing "day" in the "old" file to "night" in the "new" file:
@@ -414,6 +503,7 @@ http://man.lupaworld.com/content/manage/ringkee/awk.htm
 		
 		
 		
+>>>>>>> 62b2f71a073c5e4d19ce4610d69b12ccdc56d3fb
 
 
 
