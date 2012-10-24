@@ -15,8 +15,8 @@ python -c "import sys; sys.path = sys.path[1:]; import django; print(django.__pa
 
 
 in python terminal:
-import django
-print django.get_version()
+	import django
+	  
 
 或者
 python -c "import django; print(django.get_version())"
@@ -52,6 +52,15 @@ python manage.py runserver
 Development server is running at http://127.0.0.1:8000/
 python manage.py runserver 8080
 python manage.py runserver 0.0.0.0:8000
+
+
+浏览器输出结果
+	
+	Of course, you haven't actually done any work yet. Here's what to do next:
+	If you plan to use a database, edit the DATABASES setting in DJ/settings.py.
+	Start your first app by running python manage.py startapp [appname].
+	You're seeing this message because you have DEBUG = True in your Django settings file and you haven't configured any URLs. Get to work!
+
 
 安装好mysql-python之后，运行
 python manage.py syncdb

@@ -1,0 +1,127 @@
+This is a readme file!!!!!!!!!!!!!!
+
+2012-09-19 18:50
+
+
+参看文章
+https://help.github.com/articles/set-up-git
+http://www.worldhello.net/gotgithub/03-project-hosting/020-repo-operation.html
+http://gitref.org/branching/#tag
+
+前期配置：
+
+设置用户名和邮箱
+$ git config user.name ""   #最好是github帐号
+$ git config user.email ""  #与github邮件地址相同
+$ git commit --amend --reset-author -C HEAD
+
+查看提交日志
+$ git log --pretty=fuller
+
+
+$ git init
+$ touch README
+$ git add README
+$ git commit -m 'first commit'#本地提交
+
+
+$ git remote add origin https://github.com/username/Hello-World.git  # Creates a remote named "origin" pointing at your GitHub repo
+#在本地的  .git/refs/remotes/和.git/logs/refs/remotes/存在origin目录
+$ git push origin master #也可以 git push，必要时git push -f
+
+这是提交需要输入用户名密码，然后成功。
+
+
+创建新的分支
+
+$ git checkout -b 新分支名称   #等价于　git branch 新分支名称 + git checkout 新分支名称
+$ git add file #添加一个文件,不是必须的
+$ git commit -m "add hello1 for mark."
+$ git push -u origin 新分支名称    ＃提交；origin是先前仓库名字
+
+
+>>git clone git clone https://android.googlesource.com/platform/packages/apps/Gallery
+>>cd Gallery
+>> git branch -a 
+>>git checkout ics-mr0-release(or  remotes/origin/ics-mr0-release ,just example) 
+>> gitk --all &
+(refence :http://www.stackenqueue.com/questions/107/%E6%88%91%E6%80%8E%E4%B9%88%E7%94%A8git-clone-%E8%BF%9C%E7%A8%8B%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF)
+附加的命令
+$ git branch -r
+$ git ls-remote
+$ git branch -D 分支名　  ＃删除分支
+$ git push origin :分支名 ＃删除远程分支（不能是缺省的分支）
+
+$git clone git clone https://android.googlesource.com/platform/packages/apps/Gallery
+$cd Gallery
+$git branch -a
+$git checkout 分支
+$gitk --all &
+
+https://help.github.com/articles/fork-a-repo
+
+$ git remote add upstream https://github.com/octocat/Spoon-Knife.git   # Assigns the original repo to a remote called "upstream"
+
+$ git fetch upstream    # Pulls in changes not present in your local repository, without modifying your files
+
+$ git fetch upstream   # Fetches any new changes from the original repo
+
+$ git merge upstream/master   # Merges any changes fetched into your working files
+
+
+
+$ git pull origin master
+
+
+
+We recommend that every repository has a README, LICENSE, and .gitignore
+
+Create a new repository on the command line
+
+touch README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/xjwangliang/xjwangliang.github.com.git
+git push -u origin master
+Push an existing repository from the command line
+
+git remote add origin https://github.com/xjwangliang/xjwangliang.github.com.git
+git push -u origin master
+
+
+
+git init
+git remote add origin https://github.com/xjwangliang/xjwangliang.github.com.git
+
+如果是项目pages，则会有gh-pages分支
+If you generated a project page, fetch and check out the new branch:
+
+$ cd repo
+$ git fetch origin
+$ git checkout gh-pages
+
+
+如果是user　pages，则不会有gh-pages分支，直接pull
+If you generated a user page, the page code lives on the master branch instead of the gh-pages branch, so just check out master and then pull!
+
+$ cd repo
+$ git checkout master
+$ git pull origin master
+
+
+博客参考
+https://github.com/asiachrispy/achris/blob/gh-pages/index.html
+http://asiachrispy.github.com/achris/index.html
+
+
+
+# 创建文件
+touch README.md _config.yml {index,about,404}.html
+# 创建目录
+mkdir _{includes,layouts,posts,site} css img js
+vim -p {index,about,404}.html
+
+
+ssh
+https://help.github.com/articles/generating-ssh-keys#

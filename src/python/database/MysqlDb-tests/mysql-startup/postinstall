@@ -22,7 +22,7 @@ test -e $CONFFILE || exit 1
 
 # Disable the startup of the default MySQL installation that ships with
 # Mac OS X Server to avoid conflicts with our installation on bootup
-sed -e s/^MYSQL=-YES-/MYSQL=-NO-/g < $CONFFILE > $TMPFILE
+sed -e s/^MYSQL=-YES-/MYSQL=-NO-/g < $CONFFILE > $TMPFILE  #sed -i 's/wang/wwwwww/g' channel.xm
 
 # Add our MYSQLCOM startup variable (enabled by default)	#2>&1 表示把标准出错重定向到标准输出(0 stdin;1 stdou;2 stderr)
 grep -q "^MYSQLCOM" $CONFFILE > /dev/null 2>&1
