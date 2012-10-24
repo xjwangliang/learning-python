@@ -41,46 +41,46 @@ cd ./mysql-test ; perl mysql-test-run.pl
 
 安装pymongo（http://api.mongodb.org/python/2.0.1/installation.html/http://api.mongodb.org/python/2.3/installation.html）
 
-我使用源码安装
-
-$ git clone git://github.com/mongodb/mongo-python-driver.git pymongo
-$ cd pymongo/
-$ python setup.py install
-
-最后一句可能没有权限，可能需要加上sudo
-（在源码目录创建build目录（编译的文件放在字目录下），然后编译，最后拷贝到/Library/Python/2.7/site-packages（pymongo-2.3_-py2.7-macosx-10.7-intel.egg）
-
-
-在python命令行中执行import pymongo，没有出错就表示安装成功
+	我使用源码安装
+	
+	$ git clone git://github.com/mongodb/mongo-python-driver.git pymongo
+	$ cd pymongo/
+	$ python setup.py install
+	
+	最后一句可能没有权限，可能需要加上sudo
+	（在源码目录创建build目录（编译的文件放在字目录下），然后编译，最后拷贝到/Library/Python/2.7/site-packages（pymongo-2.3_-py2.7-macosx-10.7-intel.egg）
+	
+	在python命令行中执行import pymongo，没有出错就表示安装成功
 
 
 安装mongo
-下载解压得到（并且只有目录>170M）mongodb-osx-x86_64-2.2.0/bin,里面有很多命令
-将bin目录添加到path
-
-运行mongod
-可以看到输出MongoDB starting : pid=524 port=27017 dbpath=/data/db/ 64-bit host=wang
-，dbpath=/data/db/ 所以可能出错，因为/data/db/可能并不存在（http://dochub.mongodb.org/core/startingandstoppingmongo）
-
-mongod --dbpath /Users/wangliang/Documents/python/mongo-work/db1
-
-mongod --help
-
-输出为
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-wang:mongo-work wangliang$ mongod  --dbpath /Users/wangliang/Documents/python/mongo-work/db1
-MongoDB starting : pid=527 port=27017 dbpath=/Users/wangliang/Documents/python/mongo-work/db1 64-bit host=wang
-
-** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
-db version v2.2.0, pdfile version 4.5
-git version: f5e83eae9cfbec7fb7a071321928f00d1b0c5207
-build info: Darwin bs-osx-106-x86-64-1.local 10.8.0 Darwin Kernel Version 10.8.0: Tue Jun  7 16:33:36 PDT 2011; root:xnu-1504.15.3~1/RELEASE_I386 i386 BOOST_LIB_VERSION=1_49
-options: { dbpath: "/Users/wangliang/Documents/python/mongo-work/db1" }
-journal dir=/Users/wangliang/Documents/python/mongo-work/db1/journal
-recover : no journal files present, no recovery needed
-Sat Sep 22 11:05:56 [websvr] admin web console waiting for connections on port 28017
-waiting for connections on port 27017
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	下载解压得到（并且只有目录,>170M）mongodb-osx-x86_64-2.2.0/bin,里面有很多命令
+	将bin目录添加到path
+	
+	运行
+	$ mongod
+	可以看到输出MongoDB starting : pid=524 port=27017 dbpath=/data/db/ 64-bit host=wang
+	，dbpath=/data/db/ 所以可能出错，因为/data/db/可能并不存在（http://dochub.mongodb.org/core/startingandstoppingmongo）
+	
+	$ mongod --dbpath /Users/wangliang/Documents/python/mongo-work/db1
+	
+	$ mongod --help
+	
+	输出为
+	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	wang:mongo-work wangliang$ mongod  --dbpath /Users/wangliang/Documents/python/mongo-work/db1
+	MongoDB starting : pid=527 port=27017 dbpath=/Users/wangliang/Documents/python/mongo-work/db1 64-bit host=wang
+	
+	** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+	db version v2.2.0, pdfile version 4.5
+	git version: f5e83eae9cfbec7fb7a071321928f00d1b0c5207
+	build info: Darwin bs-osx-106-x86-64-1.local 10.8.0 Darwin Kernel Version 10.8.0: Tue Jun  7 16:33:36 PDT 2011; root:xnu-1504.15.3~1/RELEASE_I386 i386 BOOST_LIB_VERSION=1_49
+	options: { dbpath: "/Users/wangliang/Documents/python/mongo-work/db1" }
+	journal dir=/Users/wangliang/Documents/python/mongo-work/db1/journal
+	recover : no journal files present, no recovery needed
+	Sat Sep 22 11:05:56 [websvr] admin web console waiting for connections on port 28017
+	waiting for connections on port 27017
+	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
@@ -89,24 +89,24 @@ waiting for connections on port 27017
 #mongo自动创建db，插入数据之后才创建，如果查询不存在的db，那么会创建一个空的db
 
 mongo操作
-show dbs;
-show tables;
-db.system.indexes.find() db.things.getIndexes()
+	show dbs;
+	show tables;
+	db.system.indexes.find() db.things.getIndexes()
 
 
-# As soon as you insert something, MongoDB creates the underlying collection and database. If you query a collection that does not exist, MongoDB treats it as an empty collection.
-use mydb	
-j = { name : "mongo" };
-db.things.save(j);		#插入
-db.things.find();		#查询
-for (var i = 1; i <= 20; i++) db.things.save({x : 4, j : i});#Type "it" for more
-
-迭代
-var cursor = db.things.find();
-while (cursor.hasNext()) printjson(cursor.next());
+	# As soon as you insert something, MongoDB creates the underlying collection and database. If you query a collection that does not exist, MongoDB treats it as an empty collection.
+	use mydb	
+	j = { name : "mongo" };
+	db.things.save(j);		#插入
+	db.things.find();		#查询
+	for (var i = 1; i <= 20; i++) db.things.save({x : 4, j : i});#Type "it" for more
 
 迭代
-db.things.find().forEach(printjson);
+	var cursor = db.things.find();
+	while (cursor.hasNext()) printjson(cursor.next());
+
+迭代
+	db.things.find().forEach(printjson);
 
 
 
@@ -321,7 +321,7 @@ db.things.remove({n:1}); // removes all where n == 1
 手册http://docs.mongodb.org/manual/
 
 setup.py内容
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import glob
 import os
 import subprocess
