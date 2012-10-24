@@ -125,3 +125,5 @@ vim -p {index,about,404}.html
 
 ssh
 https://help.github.com/articles/generating-ssh-keys#
+https://help.github.com/articles/using-ssh-over-the-https-port
+https://help.github.com/articles/why-is-git-always-asking-for-my-password
