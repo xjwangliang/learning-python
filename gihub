@@ -26,6 +26,10 @@ $ git commit -m 'first commit'#本地提交
 
 
 $ git remote add origin https://github.com/username/Hello-World.git  # Creates a remote named "origin" pointing at your GitHub repo
+$ git remote -v
+$ git remote set-url origin https://github.com/user/repo2.git
+
+
 #在本地的  .git/refs/remotes/和.git/logs/refs/remotes/存在origin目录
 $ git push origin master #也可以 git push，必要时git push -f
 
@@ -124,6 +128,54 @@ vim -p {index,about,404}.html
 
 
 ssh
+>>	cd ~/.ssh
+
+有这个目录，那么备份
+	ls# Lists all the subdirectories in the current directory
+	# config  id_rsa  id_rsa.pub  known_hosts
+	
+	mkdir key_backup# Makes a subdirectory called "key_backup" in the current directory
+	
+	cp id_rsa* key_backup# Copies the id_rsa keypair into key_backup
+	
+	rm id_rsa*# Deletes the id_rsa keypair
+否则继续
+	>>  ssh-keygen -t rsa -C "your_email@youremail.com"
+	提示输入文件名Enter file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]，回车不输入这时在/Users/you/.ssh/生成文件
+	config      id_rsa      id_rsa.pub    known_hosts
+	然后提示输入密码（我没有输入）
+	
+拷贝 ~/.ssh/id_rsa.pub文件内容
+	pbcopy < ~/.ssh/id_rsa.pub# Copies the contents of the id_rsa.pub file to your clipboard
+	
+	
+然后在账户设置中填写拷贝的内容
+	Go to your 【Account Settings】
+	Click 【SSH Keys】 in the left sidebar 
+	Click 【Add SSH key】
+测试
+
+	ssh -T git@github.com
+	成功会显示
+	Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+	
+然后在本地配置github通过ssh连接（测试）
+	$ ssh -T -p 443 git@ssh.github.com
+	成功：
+	# Hi username! You've successfully authenticated, but GitHub does not
+	# provide shell access.
+	
+编辑 ~/.ssh/config （ ssh-keygen -t rsa -C "your_email@youremail.com"产生的），添加下面的内容
+
+	Host github.com
+	  Hostname ssh.github.com
+	  Port 443
+再次测试 ssh -T git@github.com，成功结果和上面一样
+
+最后将项目的地址更改
+>> git remote set-url origin [with the new URL]
+ 
+
 https://help.github.com/articles/generating-ssh-keys#
 https://help.github.com/articles/using-ssh-over-the-https-port
 https://help.github.com/articles/why-is-git-always-asking-for-my-password
