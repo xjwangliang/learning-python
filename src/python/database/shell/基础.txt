@@ -15,11 +15,16 @@ http://bbs.chinaunix.net/thread-452942-1-1.html
 http://bbs.chinaunix.net/thread-3679733-1-1.html
 http://www.grymoire.com/Unix/Quote.html
 
+
+Shell脚本
 http://learn.akae.cn/media/ch31s05.html
 http://www.linuxidc.com/Linux/2007-06/4767p2.htm
+Linux Shell常用技巧(一) 
+http://www.cnblogs.com/stephen-liu74/archive/2011/12/20/2285454.html
+Linux Shell高级技巧(一) 
+http://www.cnblogs.com/stephen-liu74/archive/2012/01/04/2285640.html
 
 awk
-
 http://www.staff.science.uu.nl/~oostr102/docs/nawk/nawk_toc.html
 http://www.vectorsite.net/tsawk.html
 http://www.grymoire.com/Unix/Awk.html

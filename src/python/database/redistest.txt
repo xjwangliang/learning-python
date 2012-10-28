@@ -136,4 +136,22 @@ HGETALL key						O(N) 	时间复杂度中的N表示Key包含的Field数量。获
 HKEYS key 						O(N)	时间复杂度中的N表示Key包含的Field数量。返回指定Key的所有Fields名。	Field的列表。
 HVALS key 						O(N)	时间复杂度中的N表示Key包含的Field数量。返回指定Key的所有Values名。 	Value的列表。 
 HMGET key field [field ...] 	O(N) 	时间复杂度中的N表示请求的Field数量。获取和参数中指定Fields关联的一组Values。如果请求的Field不存在，其值返回nil。如果Key不存在，该命令将其视为空Hash，因此返回一组nil。	返回和请求Fields关联的一组Values，其返回顺序等同于Fields的请求顺序。
-HMSET key field value [field value ...]	O(N)	时间复杂度中的N表示被设置的Field数量。逐对依次设置参数中给出的Field/Value对。如果其中某个Field已经存在，则用新值覆盖原有值。如果Key不存在，则创建新Key，同时设定参数中的Field/Value。  
+HMSET key field value [field value ...]	O(N)	时间复杂度中的N表示被设置的Field数量。逐对依次设置参数中给出的Field/Value对。如果其中某个Field已经存在，则用新值覆盖原有值。如果Key不存在，则创建新Key，同时设定参数中的Field/Value。
+
+************事务************
+
+KEYS pattern			O(N)	时间复杂度中的N表示数据库中Key的数量。获取所有匹配pattern参数的Keys。需要说明的是，在我们的正常操作中应该尽量避免对该命令的调用，因为对于大型数据库而言，该命令是非常耗时的，对Redis服务器的性能打击也是比较大的。pattern支持glob-style的通配符格式，如*表示任意一个或多个字符，?表示任意字符，[abc]表示方括号中任意一个字母。	匹配模式的键列表。
+DEL key [key ...]		O(N)	时间复杂度中的N表示删除的Key数量。从数据库删除中参数中指定的keys，如果指定键不存在，则直接忽略。还需要另行指出的是，如果指定的Key关联的数据类型不是String类型，而是List、Set、Hashes和Sorted Set等容器类型，该命令删除每个键的时间复杂度为O(M)，其中M表示容器中元素的数量。而对于String类型的Key，其时间复杂度为O(1)。	实际被删除的Key数量。
+EXISTS key 				O(1)	判断指定键是否存在。	1表示存在，0表示不存在。
+MOVE key db 			O(1)	将当前数据库中指定的键Key移动到参数中指定的数据库中。如果该Key在目标数据库中已经存在，或者在当前数据库中并不存在，该命令将不做任何操作并返回0。  	移动成功返回1，否则0。
+RENAME key newkey 		O(1)	为指定指定的键重新命名，如果参数中的两个Keys的命令相同，或者是源Key不存在，该命令都会返回相关的错误信息。如果newKey已经存在，则直接覆盖。 	 
+RENAMENX key newkey		O(1)	如果新值不存在，则将参数中的原值修改为新值。其它条件和RENAME一致。	1表示修改成功，否则0。
+PERSIST key				O(1)	如果Key存在过期时间，该命令会将其过期时间消除，使该Key不再有超时，而是可以持久化存储。	1表示Key的过期时间被移出，0表示该Key不存在或没有过期时间。
+EXPIRE key seconds 		O(1) 	该命令为参数中指定的Key设定超时的秒数，在超过该时间后，Key被自动的删除。如果该Key在超时之前被修改，与该键关联的超时将被移除。 	1表示超时被设置，0则表示Key不存在，或不能被设置。
+EXPIREAT key timestamp 	O(1) 	该命令的逻辑功能和EXPIRE完全相同，唯一的差别是该命令指定的超时时间是绝对时间，而不是相对时间。该时间参数是Unix timestamp格式的，即从1970年1月1日开始所流经的秒数。	1表示超时被设置，0则表示Key不存在，或不能被设置。 
+TTL key 				O(1)	获取该键所剩的超时描述。 	返回所剩描述，如果该键不存在或没有超时设置，则返回-1。
+RANDOMKEY				O(1)  	从当前打开的数据库中随机的返回一个Key。	返回的随机键，如果该数据库是空的则返回nil。
+TYPE key 				O(1) 	获取与参数中指定键关联值的类型，该命令将以字符串的格式返回。	返回的字符串为string、list、set、hash和zset，如果key不存在返回none。
+SORT key [BY pattern] [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC|DESC] [ALPHA] [STORE destination] 	O(N+M*log(M)) 	这个命令相对来说是比较复杂的，因此我们这里只是给出最基本的用法，有兴趣的网友可以去参考redis的官方文档。	返回排序后的原始列表。
+
+  
