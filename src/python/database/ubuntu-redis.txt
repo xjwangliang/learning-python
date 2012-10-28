@@ -1,0 +1,32 @@
+Ubuntu 安装 Redis,并配置开机启动
+
+1、下载安装Redis：
+cd /tmp 
+wget http://redis.googlecode.com/files/redis-2.4.6.tar.gz 
+tar -zxf redis-2.4.6.tar.gz 
+cd redis-2.4.6 
+make 
+sudo make install
+
+2. 配置init脚本：
+wget https://github.com/ijonas/dotfiles/raw/master/etc/init.d/redis-server 
+wget https://github.com/ijonas/dotfiles/raw/master/etc/redis.conf 
+sudo mv redis-server /etc/init.d/redis-server 
+sudo chmod +x /etc/init.d/redis-server 
+sudo mv redis.conf /etc/redis.conf
+
+3. 初始化用户和日志路径
+第一次启动Redis前，建议为Redis单独建立一个用户，并新建data和日志文件夹
+sudo useradd redis 
+sudo mkdir -p /var/lib/redis 
+sudo mkdir -p /var/log/redis 
+sudo chown redis.redis /var/lib/redis 
+sudo chown redis.redis /var/log/redis
+
+4、设置开机自动启动，关机自动关闭
+update-rc.d redis-server defaults
+
+5、启动Redis：
+/etc/init.d/redis-server start
+
+http://blog.rebill.info/archives/ubuntu-install-redis-and-configure-the-boot.html

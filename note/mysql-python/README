@@ -236,9 +236,7 @@ python-dev ： header files and a static library for Python (default)
 >>> import MySQLdb
 /usr/local/lib/python2.7/dist-packages/MySQL_python-1.2.3-py2.7-linux-x86_64.egg/_mysql.py:3: UserWarning: Module _mysql was already imported from /usr/local/lib/python2.7/dist-packages/MySQL_python-1.2.3-py2.7-linux-x86_64.egg/_mysql.pyc, but /home/wang/Desktop/python/Downloads/MySQL-python-1.2.3 is being added to sys.path
 
-
 没有报错即可。
-
 
 参考http://www.cnblogs.com/rollenholt/archive/2012/05/07/2487137.html
 

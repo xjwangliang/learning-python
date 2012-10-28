@@ -34,7 +34,9 @@ Mac OS X 内置Apache 和 PHP，使用起来非常方便。本文以Mac OS X 10.
 
 一定要系统设置偏好（System Preferences）” -> “共享（Sharing）” -> “Web共享（Web Sharing）选中
 http://localhost/postgresql/html/
-http://localhost/~wanglaing
+(/Library/WebServer/Documents)
+http://localhost/~wangliang	
+(/Users/wangliang/Sites)
 
 
 

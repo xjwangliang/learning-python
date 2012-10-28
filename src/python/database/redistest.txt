@@ -1,0 +1,139 @@
+% 	/usr/local/bin/redis-server
+(
+%	cd ~/Documents/python/redis-2.6.2/src
+$	./redis-server
+)
+
+%	cd ~/Documents/python/redis-2.6.2/src
+% 	./redis-cli
+
+
+详细的信息
+http://www.cnblogs.com/stephen-liu74/archive/2012/04/16/2370212.html
+
+************基本:SET、SETNX、GET、INCR、DECR、APPEND、DEL、EXPIRE、TTL************
+set name wangliang
+append name " hello world!"
+strlen name
+substr name 0 4
+
+set number 10 
+incr number
+incrby number 10
+decrby number 2
+del name 
+del number
+批量操作
+mset varA valueA varB valueB
+mget varA varB
+
+
+set number 10
+SETNX number 15(set if not exists)
+
+set tmp tmpvalue
+EXPIRE tmp 10			10秒过期
+TTL tmp 				测试还有多长时间（最终变成-1）
+
+************作用于列表List:RPUSH, LPUSH, LLEN, LRANGE, LPOP, and RPOP.************
+lpush names wangliang
+lpush names han
+rpush names song 
+lrange names 0 -1		所有
+lrange names 0 1		没有rrange
+linsert name2 before han song
+
+错误1
+	set names wangliang
+	lpush names han
+错误2
+	lpush names wangliang
+	get names
+	
+
+llen names	length
+lpop names	从左边pop
+rpop names	从右边pop
+
+LTRIM
+
+************作用于SET:SADD, SREM, SISMEMBER, SMEMBERS , SUNION.(set和list类似，没有顺序order，不许重复unique)************
+
+
+SADD key member [member ...]	O(N)	时间复杂度中的N表示操作的成员数量。如果在插入的过程用，参数中有的成员在Set中已经存在，该成员将被忽略，而其它成员仍将会被正常插入。如果执行该命令之前，该Key并不存在，该命令将会创建一个新的Set，此后再将参数中的成员陆续插入。如果该Key的Value不是Set类型，该命令将返回相关的错误信息。	本次操作实际插入的成员数量。
+SCARD key						O(1)	获取Set中成员的数量。	返回Set中成员的数量，如果该Key并不存在，返回0。
+SISMEMBER key member			O(1)	判断参数中指定成员是否已经存在于与Key相关联的Set集合中。	1表示已经存在，0表示不存在，或该Key本身并不存在。
+SMEMBERS key					O(N)	时间复杂度中的N表示Set中已经存在的成员数量。获取与该Key关联的Set中所有的成员。	
+返回Set中所有的成员。
+
+SPOP key 						O(1) 	随机的移除并返回Set中的某一成员。 由于Set中元素的布局不受外部控制，因此无法像List那样确定哪个元素位于Set的头部或者尾部。	返回移除的成员，如果该Key并不存在，则返回nil。
+SREM key member [member ...]	O(N) 	时间复杂度中的N表示被删除的成员数量。从与Key关联的Set中删除参数中指定的成员，不存在的参数成员将被忽略，如果该Key并不存在，将视为空Set处理。	从Set中实际移除的成员数量，如果没有则返回0。
+SRANDMEMBER key 				O(1) 	和SPOP一样，随机的返回Set中的一个成员，不同的是该命令并不会删除返回的成员。	返回随机位置的成员，如果Key不存在则返回nil。
+SMOVE source destination member	O(1) 	原子性的将参数中的成员从source键移入到destination键所关联的Set中。因此在某一时刻，该成员或者出现在source中，或者出现在destination中。如果该成员在source中并不存在，该命令将不会再执行任何操作并返回0，否则，该成员将从source移入到destination。如果此时该成员已经在destination中存在，那么该命令仅是将该成员从source中移出。如果和Key关联的Value不是Set，将返回相关的错误信息。	1表示正常移动，0表示source中并不包含参数成员。
+SDIFF key [key ...]				O(N) 	时间复杂度中的N表示所有Sets中成员的总数量。返回参数中第一个Key所关联的Set和其后所有Keys所关联的Sets中成员的差异。如果Key不存在，则视为空Set。	差异结果成员的集合。
+SDIFFSTORE destination key [key ...] 	O(N) 	该命令和SDIFF命令在功能上完全相同，两者之间唯一的差别是SDIFF返回差异的结果成员，而该命令将差异成员存储在destination关联的Set中。如果destination键已经存在，该操作将覆盖它的成员。	返回差异成员的数量。
+SINTER key [key ...] 			O(N*M) 	时间复杂度中的N表示最小Set中元素的数量，M则表示参数中Sets的数量。该命令将返回参数中所有Keys关联的Sets中成员的交集。因此如果参数中任何一个Key关联的Set为空，或某一Key不存在，那么该命令的结果将为空集。	交集结果成员的集合。
+SINTERSTORE destination key [key ...]	O(N*M) 	该命令和SINTER命令在功能上完全相同，两者之间唯一的差别是SINTER返回交集的结果成员，而该命令将交集成员存储在destination关联的Set中。如果destination键已经存在，该操作将覆盖它的成员。	返回交集成员的数量。 
+SUNION key [key ...] 			O(N)	时间复杂度中的N表示所有Sets中成员的总数量。该命令将返回参数中所有Keys关联的Sets中成员的并集。	并集结果成员的集合。
+SUNIONSTORE destination key [key ...] 	O(N) 	该命令和SUNION命令在功能上完全相同，两者之间唯一的差别是SUNION返回并集的结果成员，而该命令将并集成员存储在destination关联的Set中。如果destination键已经存在，该操作将覆盖它的成员。 	返回并集成员的数量。
+
+
+sadd sets A,
+sadd sets B
+sadd sets C
+srem sets C
+smembers sets			返回全集 
+sismember sets A		返回1或者0
+
+sadd sets2 AA
+sadd sets2 BB
+sunion sets sets2
+SINTER sets sets2
+SDIFF sets sets2
+
+************作用与Sorted SET:ZADD(sorted set与set类似，但是每个值都有一个相关联的score)************
+ZADD key score member [score] [member] 	O(log(N))	时间复杂度中的N表示Sorted-Sets中成员的数量。添加参数中指定的所有成员及其分数到指定key的Sorted-Set中，在该命令中我们可以指定多组score/member作为参数。如果在添加时参数中的某一成员已经存在，该命令将更新此成员的分数为新值，同时再将该成员基于新值重新排序。如果键不存在，该命令将为该键创建一个新的Sorted-Sets Value，并将score/member对插入其中。如果该键已经存在，但是与其关联的Value不是Sorted-Sets类型，相关的错误信息将被返回。	本次操作实际插入的成员数量。
+ZCARD key 								O(1)		获取与该Key相关联的Sorted-Sets中包含的成员数量。	返回Sorted-Sets中的成员数量，如果该Key不存在，返回0。
+ZCOUNT key min max						O(log(N)+M) 时间复杂度中的N表示Sorted-Sets中成员的数量，M则表示min和max之间元素的数量。该命令用于获取分数(score)在min和max之间的成员数量。针对min和max参数需要额外说明的是，-inf和+inf分别表示Sorted-Sets中分数的最高值和最低值。缺省情况下，min和max表示的范围是闭区间范围，即min <= score <= max内的成员将被返回。然而我们可以通过在min和max的前面添加"("字符来表示开区间，如(min max表示min < score <= max，而(min (max表示min < score < max。	分数指定范围内成员的数量。
+ZINCRBY key increment member 			O(log(N))	时间复杂度中的N表示Sorted-Sets中成员的数量。该命令将为指定Key中的指定成员增加指定的分数。如果成员不存在，该命令将添加该成员并假设其初始分数为0，此后再将其分数加上increment。如果Key不存，该命令将创建该Key及其关联的Sorted-Sets，并包含参数指定的成员，其分数为increment参数。如果与该Key关联的不是Sorted-Sets类型，相关的错误信息将被返回。	以字符串形式表示的新分数。
+ZRANGE key start stop [WITHSCORES] 		O(log(N)+M)	时间复杂度中的N表示Sorted-Set中成员的数量，M则表示返回的成员数量。该命令返回顺序在参数start和stop指定范围内的成员，这里start和stop参数都是0-based，即0表示第一个成员，-1表示最后一个成员。如果start大于该Sorted-Set中的最大索引值，或start > stop，此时一个空集合将被返回。如果stop大于最大索引值，该命令将返回从start到集合的最后一个成员。如果命令中带有可选参数WITHSCORES选项，该命令在返回的结果中将包含每个成员的分数值，如value1,score1,value2,score2...。　　	返回索引在start和stop之间的成员列表。
+ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count] 	O(log(N)+M)	时间复杂度中的N表示Sorted-Set中成员的数量，M则表示返回的成员数量。该命令将返回分数在min和max之间的所有成员，即满足表达式min <= score <= max的成员，其中返回的成员是按照其分数从低到高的顺序返回，如果成员具有相同的分数，则按成员的字典顺序返回。可选参数LIMIT用于限制返回成员的数量范围。可选参数offset表示从符合条件的第offset个成员开始返回，同时返回count个成员。可选参数WITHSCORES的含义参照ZRANGE中该选项的说明。最后需要说明的是参数中min和max的规则可参照命令ZCOUNT。	返回分数在指定范围内的成员列表。
+ZRANK key member 						O(log(N))  	时间复杂度中的N表示Sorted-Set中成员的数量。Sorted-Set中的成员都是按照分数从低到高的顺序存储，该命令将返回参数中指定成员的位置值，其中0表示第一个成员，它是Sorted-Set中分数最低的成员。	如果该成员存在，则返回它的位置索引值。否则返回nil。
+ZREM key member [member ...]			O(M log(N))	时间复杂度中N表示Sorted-Set中成员的数量，M则表示被删除的成员数量。该命令将移除参数中指定的成员，其中不存在的成员将被忽略。如果与该Key关联的Value不是Sorted-Set，相应的错误信息将被返回。	实际被删除的成员数量。
+ZREVRANGE key start stop [WITHSCORES]  	O(log(N)+M) 时间复杂度中的N表示Sorted-Set中成员的数量，M则表示返回的成员数量。该命令的功能和ZRANGE基本相同，唯一的差别在于该命令是通过反向排序获取指定位置的成员，即从高到低的顺序。如果成员具有相同的分数，则按降序字典顺序排序。	返回指定的成员列表。
+ZREVRANK key member 					O(log(N))	时间复杂度中的N表示Sorted-Set中成员的数量。该命令的功能和ZRANK基本相同，唯一的差别在于该命令获取的索引是从高到低排序后的位置，同样0表示第一个元素，即分数最高的成员。	如果该成员存在，则返回它的位置索引值。否则返回nil。 
+ZSCORE key member						O(1)		获取指定Key的指定成员的分数。	如果该成员存在，以字符串的形式返回其分数，否则返回nil。
+ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count] 	O(log(N)+M) 	时间复杂度中的N表示Sorted-Set中成员的数量，M则表示返回的成员数量。该命令除了排序方式是基于从高到低的分数排序之外，其它功能和参数含义均与ZRANGEBYSCORE相同。	返回分数在指定范围内的成员列表。 
+ZREMRANGEBYRANK key start stop 			O(log(N)+M)	时间复杂度中的N表示Sorted-Set中成员的数量，M则表示被删除的成员数量。删除索引位置位于start和stop之间的成员，start和stop都是0-based，即0表示分数最低的成员，-1表示最后一个成员，即分数最高的成员。  	被删除的成员数量。
+ZREMRANGEBYSCORE key min max 			O(log(N)+M)	时间复杂度中的N表示Sorted-Set中成员的数量，M则表示被删除的成员数量。删除分数在min和max之间的所有成员，即满足表达式min <= score <= max的所有成员。对于min和max参数，可以采用开区间的方式表示，具体规则参照ZCOUNT。 	被删除的成员数量。
+
+
+    ZADD hackers 1940 "Alan Kay"
+    ZADD hackers 1953 "Richard Stallman"
+    ZADD hackers 1965 "Yukihiro Matsumoto"
+    ZADD hackers 1916 "Claude Shannon"
+    ZADD hackers 1969 "Linus Torvalds"
+    ZADD hackers 1912 "Alan Turing"
+ 这个例子中出生年份是score，名字是值
+ ZRANGE hackers 2 4 => ["Alan Kay","Richard Stallman","Yukihiro Matsumoto"](结果是按找时间升序后再选择出来的)
+ 
+ 
+ ZCOUNT
+ ZRANGEBYSCORE
+ 
+ 
+ 
+************Hash************
+我们可以将Redis中的Hashes类型看成具有String Key和String Value的map容器。所以该类型非常适合于存储值对象的信息。如Username、Password和Age等。如果Hash中包含很少的字段，那么该类型的数据也将仅占用很少的磁盘空间。每一个Hash可以存储4294967295个键值对。
+HSET key field value			O(1)	为指定的Key设定Field/Value对，如果Key不存在，该命令将创建新Key以参数中的Field/Value对，如果参数中的Field在该Key中已经存在，则用新值覆盖其原有值。 	1表示新的Field被设置了新值，0表示Field已经存在，用新值覆盖原有值。 
+HGET key field 					O(1) 	返回指定Key中指定Field的关联值。	返回参数中Field的关联值，如果参数中的Key或Field不存，返回nil。
+HEXISTS key field 				O(1) 	判断指定Key中的指定Field是否存在。	1表示存在，0表示参数中的Field或Key不存在。
+HLEN key 						O(1)	获取该Key所包含的Field的数量。	返回Key包含的Field数量，如果Key不存在，返回0。
+HDEL key field [field ...] 		O(N)	时间复杂度中的N表示参数中待删除的字段数量。从指定Key的Hashes Value中删除参数中指定的多个字段，如果不存在的字段将被忽略。如果Key不存在，则将其视为空Hashes，并返回0.	实际删除的Field数量。
+HSETNX key field value			O(1)	只有当参数中的Key或Field不存在的情况下，为指定的Key设定Field/Value对，否则该命令不会进行任何操作。 	1表示新的Field被设置了新值，0表示Key或Field已经存在，该命令没有进行任何操作。
+HINCRBY key field increment 	O(1)	增加指定Key中指定Field关联的Value的值。如果Key或Field不存在，该命令将会创建一个新Key或新Field，并将其关联的Value初始化为0，之后再指定数字增加的操作。该命令支持的数字是64位有符号整型，即increment可以负数。 	返回运算后的值。
+HGETALL key						O(N) 	时间复杂度中的N表示Key包含的Field数量。获取该键包含的所有Field/Value。其返回格式为一个Field、一个Value，并以此类推。	Field/Value的列表。
+HKEYS key 						O(N)	时间复杂度中的N表示Key包含的Field数量。返回指定Key的所有Fields名。	Field的列表。
+HVALS key 						O(N)	时间复杂度中的N表示Key包含的Field数量。返回指定Key的所有Values名。 	Value的列表。 
+HMGET key field [field ...] 	O(N) 	时间复杂度中的N表示请求的Field数量。获取和参数中指定Fields关联的一组Values。如果请求的Field不存在，其值返回nil。如果Key不存在，该命令将其视为空Hash，因此返回一组nil。	返回和请求Fields关联的一组Values，其返回顺序等同于Fields的请求顺序。
+HMSET key field value [field value ...]	O(N)	时间复杂度中的N表示被设置的Field数量。逐对依次设置参数中给出的Field/Value对。如果其中某个Field已经存在，则用新值覆盖原有值。如果Key不存在，则创建新Key，同时设定参数中的Field/Value。  
