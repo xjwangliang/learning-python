@@ -1,0 +1,180 @@
+使用命令echo $SHELL 如果输出的是：csh或者是tcsh，就是C Shell。 如果输出的是：bash，sh，zsh，就是Bourne Shell的一个变种。 Mac OS X 10.2之前默认的是C Shell。 Mac OS X 10.3之后默认的是Bourne Shell。 
+(1) 如果是Bourne Shell。 直接在用户目录下面的.profile或者.bash_profile中修改，如果文件不存在就生成一个。 >> pico .profile   		//或用vi / vim都行。 比如这里要添加Android-SDK中的tools的路经到PATH(android后来将一些常用工具比如adb从tools移到platform-tools下面去了)，就这样写即可： export PATH=$PATH:/Android-SDK/android-sdk-macosx/tools    (2) 如果是C Shell 和(1)一样 ，只是编辑的文件名为：.cshrc pico .cshrc     
+Mac OS 设置$PATH环境变量
+
+启动Terminal， echo 'export PATH=somepath:$PATH' >> ~/.bash_profile 打开一个新的Terminal，echo $PATH ,查看新的$PATH内容。   或者显示隐藏文件,直接编辑~/.bash_profile文件。   还原默认$PATH：显示隐藏文件后在Finder中直接删除~/.bash_profile。 或者在Terminal中输入： cd ~/; ls -la; rm -rf .bash_profile; ls -la
+ 
+   
+冒号键进入「Last line mode」(: w filename （输入 「w filename」将文章以指定的文件名filename保存）
+: wq (输入「wq」，存盘并退出vi): q! (输入q!， 不存盘强制退出vi)) 字母「i」就可以进入「插入模式（Insert mode）」 「ESC」键转到「命令行模式（command mode）」 (按「e」：光标跳到下个字的字尾 按「b」：光标回到上个字的开头 　按「$」：移动到光标所在行的“行尾”。按「^」：移动到光标所在行的“行首” 按「ctrl」+「b」：屏幕往“后”移动一页。
+
+　　按「ctrl」+「f」：屏幕往“前”移动一页。
+
+　　按「ctrl」+「u」：屏幕往“后”移动半页。
+
+　　按「ctrl」+「d」：屏幕往“前”移动半页。
+
+　　按数字「0」：移到文章的开头。
+
+　　按「G」：移动到文章的最后。
+
+「x」：每按一次，删除光标所在位置的“后面”一个字符。
+
+　　「#x」：例如，「6x」表示删除光标所在位置的“后面”6个字符。
+
+　　「X」：大写的X，每按一次，删除光标所在位置的“前面”一个字符。
+
+　　「#X」：例如，「20X」表示删除光标所在位置的“前面”20个字符。
+
+　　「dd」：删除光标所在行。
+
+　　「#dd」：从光标所在行开始删除#行
+
+u」：如果您误执行一个命令
+
+「ctrl」+「g」列出光标所在行的行号。
+
+　　「#G」：例如，「15G」，表示移动光标至文章的第15行行首。 「/关键字」：先按「/」键，再输入您想寻找的字符，如果第一次找的关键字不是您想要的，可以一直按「n」会往后寻找到您要的关键字为止。
+
+　「?关键字」：先按「?」键，再输入您想寻找的字符，如果第一次找的关键字不是您想要的，可以一直按「n」会往前寻找到您要的关键字为止。
+
+「q」：按「q」就是退出，如果无法离开vi，可以在「q」后跟一个「!」强制离开vi。 「qw」：一般建议离开时，搭配「w」一起使用，这样在退出的时候还可以保存文件。)
+
+Ctrl + E: 快速跳转到另外一个编辑器。注意Ctrl + F6也可以实现这个功能 Ctrl + ./Ctrl +,: 在一个文件中快速定位到一个问题（如错误、警告等） Ctrl + Q: 上一个编辑位置 Ctrl + Shift + R: 打开资源   Ctrl + Shift + T: 〔Ctrl＋M〕
+ 按「i」切换进入插入模式「insert mode」，按“i”进入插入模式后是从光标当前位置开始输入文件；
+
+　　按「a」进入插入模式后，是从目前光标所在位置的下一个位置开始输入文字；
+
+　　按「o」进入插入模式后，是插入新的一行，从行首开始输入文字。 
+ 
+ 1  快速的建立一个文件，并输入一些内容
+   cat >> filename ，输入一些内容然后按Ctrl-d结束输入。 
+  注意：如果filename已经存在则内容将被清空 
+cat 由第一行开始显示文件内容 
+tac 从最后一行开始显示，可以看出 tac 是 cat 的倒着写！ 
+more 一页一页的显示文件内容 
+less 与 more 类似，但是比 more 更好的是，它可以往前翻页！ 
+head 只看头几行 
+tail 只看尾巴几行 
+nl   显示的时候，顺道输出行号！ 
+od   以二进制的方式读取文件内容！
+  pico
+linux命令行
+1 命令行的重定向
+commnad ［args］ < filename
+command [args] > filename
+2 利用管道
+利用Linux提供的管道｜将两个命令隔开
+连续管道意味着， 第一个命令的输出将作为第二个命令的输入， 以此类推
+3利用命令替换
+如果shell碰到一对``那么将使用命令替换
+echo today is 'date'
+echo 'echo today is \ 'date\' '
+
+卷的相关概念
+卷是硬盘上的存储区域， 
+一个硬盘可以包含多个卷， 一个卷可以跨越多个硬盘， 而每个卷可以看作一个逻辑硬盘
+
+物理存储介质  /dev/hda1
+物理卷就是硬盘分区（PV）
+逻辑卷  在逻辑卷上可以建立文件系统 /home  (LV)
+物理区域  每一个物理卷划分为PE的基本单元， 具有唯一编号的pe可以被LVM寻址的最小单元(PE)
+逻辑区   逻辑卷中可以被寻址的最小单元(LE)
+
+文件系统
+文件可以简单定义为有名字的一组相关信息的集合
+文件中字符关系是由使用文件的应用程序来建立和解释
+
+（1）文件系统
+文件系统是磁盘上有特定格式的一片区域， 操作系统通过文件系统可以方便地查询和访问其中所包含的磁盘块
+（2）文件
+文件系统中存储数据的一个命名对象
+（3）目录
+目录文件包含很多文件的目录项， 每个目录项包含相应文件的名字和i节点号。在i节点号中存放文件的控制管理信息
+
+inode 是一个索引节点， 它包含了一个文件的长度， 创建己修改时间， 权限 所属关系
+一个文件系统维护一个索引节点的数组， 每个文件或目录都与索引节点数组中唯一一个元素相对应
+系统给每个节点分配一个号码， 就是该节点在数组中的索引号
+
+硬连接   源文件和硬连接文件指向相同的物理地址， 文件只有一个复制
+
+符号链接 ln-s  是一种特殊的文件， 它指向所链接文件的路径名， 类似于快捷方式
+如果是想在不同的目录访问同一个文件，可以使用硬连接
+如果只是为了访问方便，可以使用符号连接
+符号链接只是快捷方式， 删除对于源文件没有影响
+硬连接 则是指向相同的物理储存单元 ，因此
+
+/dev/hda1 表示 hd表示硬盘 a表示IDE设备中的第一块硬盘 1表示第一个分区
+
+rm   删除      -i 询问 -f 直接强制删除  -r 递归删除
+cp   文件复制  -a=dpR   表示递归复制所有信息 复制符号连接
+mv   移动文件名 、目录  如果是在同目录下的操作， 实际上就是改名
+ln   -s 符号连接  -f则是硬连接 
+
+chattr 修改文件属性
+lsattr 类出文件属性
+chgrp  改变文件目录所属群组
+chmod   改变文件模式 a 表示全部 u表示文件所有者 ， g与文件属主同一个组， o其他用户 chmod ug+w, o-x example
+第二种方式是用数字表示 读4写2执行1 组合值和表示拥有权限 755   7 =421 全权限
+
+cut 从开头算起的某个范围内的字符  -c指定输出范围 -d指定分隔符 -f指定范围（分隔符分开之后的字段）
+cat 链状显示  把文件直接显示出来 
+1直接创建文件
+2连接多个文件  cat a,b > c
+3 覆盖文件   cat  a>b
+4 追加文件  cat  a>>b
+paste 将不同文件的列合并到同一个文件中  -d可以指定间隔字符
+more 可以将所观察的文件跟终端机的形态一页页显示出来  一般是通过管道和别的命令配合使用
+less  基本用法和more一样，可以使用上下命令进行查看
+head  从头部显示数据 -c 指定字节 -n 指定行数 
+tail   从尾部显示数据
+find 查找文件或目录
+locate 查找文件 由于查找符合命令的文件， 它会在保存文件和目录的数据库内查找合法范本样式的文件或目录
+whereis 是以小巧好用寻找工具， 它专门用来寻找可执行程序，原始程序和使用手册， 它会在特定目录中查找符合条件的文件
+which  在环境变量path设置的目录里查找符合条件的文件
+tar 用于文件归档备份 
+tar -cvf /temp.tar /temp
+tar -zcvf /temp.tar.gz /temp
+tar -jcvf /temp.tar.bz2 /temp
+c 建立备份文件 v显示执行过程 f指定备份文件
+z gzip压缩  
+x是从备份文件中取出
+tar -xvf /tem/temp.tar
+tar -zxvf /tem/temp.tar.gz
+tar -jxvf /tem/temp.tar.bz2
+
+gzip 解压命令
+gunzip 解压文件
+
+grep 查找文件里符合条件的字符串
+在文件中搜索特定字符串
+grep bana orange
+grep goto  *.c
+grep localhsot /ect/* 查找/etc/中所有包含localhost 的文件
+rgrep 递归查找文件里符合条件的字符串
+
+sort ［］文件名   -d忽略特殊字符 -f忽略大小写  -u去除重复 -t指定分隔符  +a-b   指定起始栏位
+wc 计算字数    行数， 单词数 字符数
+uniq 统计和删除重复出现的行列 注意 必须是连续出现 -f 指定第几列
+uniq inputfile outputfile  可以去掉重复列， 并输出到新文件中
+tr 转换字符 ［cdst］ ［第一字符集］［第二字符集］ 
+tr 'A-Za-z' 'A-Za-z' < file-A >file-B
+od输出文件
+tee从标准输入读取数据，然后输出成文件 -a  文件后面追加
+touch 改变文件的日期和时间
+
+
+ HYPERLINK "http://blog.csdn.net/duanyipeng/article/details/7369601"JDK source下载地址
+分类：  HYPERLINK "http://blog.csdn.net/duanyipeng/article/category/915852"Java2012-03-19 16:43 87人阅读  HYPERLINK "http://blog.csdn.net/duanyipeng/article/details/7369601" \l "comments"评论(0)  HYPERLINK "javascript:void(0);"收藏  HYPERLINK "http://blog.csdn.net/duanyipeng/article/details/7369601" \l "report"举报 
+JDK 6:   HYPERLINK "http://download.java.net/jdk6/source/" \n _blankhttp://download.java.net/jdk6/source/
+http://www.java.net/node/673101
+JDK 7:   HYPERLINK "http://download.java.net/openjdk/jdk7/" \n _blankhttp://download.java.net/openjdk/jdk7/
+具体Eclipse中关联方法请参看前面写的过的一篇博客：
+ HYPERLINK "http://blog.csdn.net/duanyipeng/article/details/6915582" \n _blankhttp://blog.csdn.net/duanyipeng/article/details/6915582 
+ android 1.6： HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730192"http://download.csdn.net/detail/duanyipeng/3730192
+android 2.1： HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730193"http://download.csdn.net/detail/duanyipeng/3730193 或  HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730195"http://download.csdn.net/detail/duanyipeng/3730195 android 2.2： HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730197"http://download.csdn.net/detail/duanyipeng/3730197 或  HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730202"http://download.csdn.net/detail/duanyipeng/3730202 android 2.3： HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730206"http://download.csdn.net/detail/duanyipeng/3730206 android 2.3.1： HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730203"http://download.csdn.net/detail/duanyipeng/3730203  android 2.3.3： HYPERLINK "http://download.csdn.net/detail/duanyipeng/3730205"http://download.csdn.net/detail/duanyipeng/3730205 
+  http://rgruet.free.fr/public/  /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents /System/Library/Frameworks/JavaVM.framework/Home  因为Mac中JDK 1.6.0目录下没有自带JDK的源码src.zip, 所以Eclipse里默认是找不到源码的。
+1. 在Eclipse里找到使用的JDK目录: preferences...->Java->Installed JREs->JVM 1.6.0 (MacOS X Default). 2. 复制src.zip到/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home 3. 重启Eclipse即可.
+ HYPERLINK "http://lovebirdegg.iteye.com/blog/583370"http://lovebirdegg.iteye.com/blog/583370  .bash_profile //--------------------------------------------------------------- alias ll="ls -la" alias la="ls -a" alias ls="ls -G" export ANDROID_SDK=/Users/wangliang/Downloads/android-sdk-macosx export ANDROID_NDK=/Users/wangliang/Documents/ndk/android-ndk-r8 export GUOKU=/Users/wangliang/Documents/androidworkspace export CATALINA_HOME=/Users/wangliang/Documents/tomcat/apache-tomcat-7.0.29 export JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home export PATH=$PATH:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$ANDROID_NDK:$CATALINA_HOME:$JAVA_HOME  //---------------------------------------------------------------   ================================================================================    Licensed to the Apache Software Foundation (ASF) under one or more    contributor license agreements.  See the NOTICE file distributed with    this work for additional information regarding copyright ownership.    The ASF licenses this file to You under the Apache License, Version 2.0    (the "License"); you may not use this file except in compliance with    the License.  You may obtain a copy of the License at          http://www.apache.org/licenses/LICENSE-2.0      Unless required by applicable law or agreed to in writing, software    distributed under the License is distributed on an "AS IS" BASIS,    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.    See the License for the specific language governing permissions and    limitations under the License.  ================================================================================    $Id: RUNNING.txt 1348594 2012-06-10 14:03:04Z kkolinko $                ===================================================              Running The Apache Tomcat 7.0 Servlet/JSP Container              ===================================================    Apache Tomcat 7.0 requires a Java Standard Edition Runtime  Environment (JRE) version 6.0 or later.    =============================  Running With JRE 6.0 Or Later  =============================    (1) Download and Install a Java SE Runtime Environment (JRE)    (1.1) Download a Java SE Runtime Environment (JRE),        release version 6.0 or later, from        http://www.oracle.com/technetwork/java/javase/downloads/index.html    (1.2) Install the JRE according to the instructions included with the        release.          You may also use a full Java Development Kit (JDK) rather than just        a JRE.      (2) Download and Install Apache Tomcat    (2.1) Download a binary distribution of Tomcat from:          http://tomcat.apache.org/    (2.2) Unpack the binary distribution so that it resides in its own        directory (conventionally named "apache-tomcat-[version]").          For the purposes of the remainder of this document, the name        "CATALINA_HOME" is used to refer to the full pathname of that        directory.    NOTE:  As an alternative to downloading a binary distribution, you can  create your own from the Tomcat source code, as described in  "BUILDING.txt".  You can either      a)  Do the full "release" build and find the created distribution in the        "output/release" directory and then proceed with unpacking as above, or      b)  Do a simple build and use the "output/build" directory as        "CATALINA_HOME".  Be warned that there are some differences between the        contents of the "output/build" directory and a full "release"        distribution.      (3) Configure Environment Variables    Tomcat is a Java application and does not use environment variables. The  variables are used by the Tomcat startup scripts. The scripts use the variables  to prepare the command that starts Tomcat.    (3.1) Set CATALINA_HOME (required) and CATALINA_BASE (optional)    The CATALINA_HOME and CATALINA_BASE environment variables are used to  specify the location of Apache Tomcat and the location of its active  configuration, respectively.    The CATALINA_HOME environment variable should be set as defined in (2.2)  above. The Tomcat startup scripts have some logic to set this variable  automatically if it is absent (based on the location of the script in  Unixes and on the current directory in Windows), but this logic might not work  in all circumstances.    The CATALINA_BASE environment variable is optional and is further described  in the "Multiple Tomcat Instances" section below. If it is absent, it defaults  to be equal to CATALINA_HOME.      (3.2) Set JRE_HOME or JAVA_HOME (required)    The JRE_HOME variable is used to specify location of a JRE that is used to  start Tomcat.    The JAVA_HOME variable is used to specify location of a JDK. It is used instead  of JRE_HOME.    Using JAVA_HOME provides access to certain additional startup options that  are not allowed when JRE_HOME is used.    If both JRE_HOME and JAVA_HOME are specified, JRE_HOME is used.      (3.3) Other variables (optional)    Other environment variables exist, besides the four described above.  See the comments at the top of catalina.bat or catalina.sh scripts for  the list and a description of each of them.    One frequently used variable is CATALINA_OPTS. It allows specification of  additional options for the java command that starts Tomcat.    See the Java documentation for the options that affect the Java Runtime  Environment.    See the "System Properties" page in the Tomcat Configuration Reference for  the system properties that are specific to Tomcat.    A similar variable is JAVA_OPTS. It is used less frequently. It allows  specification of options that are used both to start and to stop Tomcat as well  as for other commands.    Do not use JAVA_OPTS to specify memory limits. You do not need much memory  for a small process that is used to stop Tomcat. Those settings belong to  CATALINA_OPTS.    Another frequently used variable is CATALINA_PID (on *nix platforms only). It  specifies the location of the file where process id of the forked Tomcat java  process will be written. This setting is optional. It will enable the  following features:     - better protection against duplicate start attempts and   - allows forceful termination of Tomcat process when it does not react to     the standard shutdown command.      (3.4) setenv script (optional)    Apart from CATALINA_HOME and CATALINA_BASE, all environment variables can  be specified in the "setenv" script.    The script is named setenv.bat (Windows) or setenv.sh (*nix). It can be  placed either into CATALINA_BASE/bin or into CATALINA_HOME/bin. The file  has to be readable.    By default the setenv script file is absent. If the setenv script is  present both in CATALINA_BASE and in CATALINA_HOME, the one in  CATALINA_BASE is used.    For example, to configure the JRE_HOME and CATALINA_PID variables you can  create the following script file:    On Windows, %CATALINA_BASE%\bin\setenv.bat:      set "JRE_HOME=%ProgramFiles%\Java\jre6"    exit /b 0    On Unix, $CATALINA_BASE/bin/setenv.sh:      JRE_HOME=/usr/java/latest    CATALINA_PID="$CATALINA_BASE/tomcat.pid"    You cannot configure CATALINA_HOME and CATALINA_BASE variables in the  setenv script, because they are used to find that file.      (4) Start Up Tomcat    (4.1) Tomcat can be started by executing one of the following commands:          %CATALINA_HOME%\bin\startup.bat         (Windows)         cd $GUOKU/bin/startup.sh           (Unix)       or          %CATALINA_HOME%\bin\catalina.bat start  (Windows)          $CATALINA_HOME/bin/catalina.sh start    (Unix)    (4.2) After startup, the default web applications included with Tomcat will be        available by visiting:          http://localhost:8080/   
+ 
+

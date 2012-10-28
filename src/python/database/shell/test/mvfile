@@ -1,0 +1,4 @@
+#!/bin/sh
+p = /Users/wangliang/Downloads/android
+if $2==a :wq
+mv $1 /Users/wangliang/Downloads/程序

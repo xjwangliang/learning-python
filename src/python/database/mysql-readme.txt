@@ -92,35 +92,6 @@ INSERT INTO animals (grp,name) VALUES
 mysql数据类型
 http://www.cnblogs.com/macro-cheng/archive/2011/10/26/mysql-002.html
 
-09-29 15:57:08.400: E/AndroidRuntime(16239): Caused by: java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at java.util.ArrayList.throwIndexOutOfBoundsException(ArrayList.java:251)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at java.util.ArrayList.get(ArrayList.java:304)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.data.db.NormalCardDao.savePopulars(NormalCardDao.java:97)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.service.CardService.savePoppulars(CardService.java:207)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.service.CardService.getAllPopular(CardService.java:281)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.activity.Popular.getCards(Popular.java:617)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.activity.Popular.access$8(Popular.java:613)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.activity.Popular$8.doInBackground(Popular.java:543)
-09-29 15:57:08.400: E/AndroidRuntime(16239): 	at com.guoku.activity.BaseAdapterActivity$LoadDataTask.doInBackground(BaseAdapterActivity.java:1)
-
-
-09-29 16:02:33.470: E/AndroidRuntime(17451): java.lang.RuntimeException: Unable to instantiate application com.guoku.activity.ApplicationEx: java.lang.NullPointerException
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.LoadedApk.makeApplication(LoadedApk.java:482)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:3955)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.ActivityThread.access$1300(ActivityThread.java:127)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.os.Handler.dispatchMessage(Handler.java:99)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.os.Looper.loop(Looper.java:137)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.ActivityThread.main(ActivityThread.java:4441)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at java.lang.reflect.Method.invokeNative(Native Method)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at java.lang.reflect.Method.invoke(Method.java:511)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:823)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:590)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at dalvik.system.NativeStart.main(Native Method)
-09-29 16:02:33.470: E/AndroidRuntime(17451): Caused by: java.lang.NullPointerException
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.LoadedApk.initializeJavaContextClassLoader(LoadedApk.java:362)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.LoadedApk.getClassLoader(LoadedApk.java:305)
-09-29 16:02:33.470: E/AndroidRuntime(17451): 	at android.app.LoadedApk.makeApplication(LoadedApk.java:474)
 
 
 请求：api_key=0b19c2b93687347e95c6b6f5cc91bb87&page=1&sign=865fd44a427d97212a407b88c83e9b87&size=60&type=pop_d

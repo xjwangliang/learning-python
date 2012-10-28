@@ -1,0 +1,61 @@
+#!/bin/sh
+
+#容易混淆，所以最好加上{}
+num=2
+echo "this is the ${num}nd number!!"
+
+num2=2
+echo "this is the $num2nd number!!"
+
+#计算文件行数
+echo 'test.txt lines:' 
+	wc -l test.txt
+
+#计算文件中的单词数
+echo 'test.txt words:' 
+	wc -w test.txt
+#计算文件中的字符数
+echo 'test.txt characters:' 
+	wc -c test.txt
+	
+echo 'serrch 'line'test.txt :' 
+	grep 'line' test.txt
+
+
+echo '原文：' 
+cat test.txt
+echo '输出每行的地2到第6个字符' 
+cut -b2-6 test.txt
+
+echo '---------test.txt的文件类型是---------：' 
+file test.txt
+
+
+echo '---------: 对file.txt文件中的行进行排序---------'
+sort test.txt #sort -r test.txt
+
+echo '---------uniq: 删除文本文件中重复出现的行列'
+sort test.txt | uniq#uniq test.txt
+
+echo '------expr: 进行数学运算(2+3;2*3)---------'
+expr 2 "+" 3
+expr 2 "*" 3
+
+echo '-----------find: 搜索文件-----------'
+find . -name "*sql*" -print #find . -name "*sql"
+echo '-----------find: 搜索文件-----------'
+find  *sql*
+
+echo '-------tee从标准输入读取数据，然后输出成文件(-a表示追加);命令somecommand | tee outfile表示同时输出到屏幕和文件-----'
+awk '{print $0}' test.txt | tee -a wow
+
+echo '-------basename file: 返回不包含路径的文件名-----'
+basename test.txt
+
+echo '-------dirname file: 返回文件所在路径(注意当前目录的文件返回.)---'
+dirname test.txt
+
+echo '-------head file: 打印文本文件开头几行-----'
+head test.txt
+echo '-------tail file : 打印文本文件末尾几行-----'
+tail test.txt

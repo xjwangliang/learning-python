@@ -27,86 +27,6 @@ Prerequisites
 
 + MySQL 3.23.32 or higher
 
-  * http://www.mysql.com/downloads/
-
-  * Versions lower than 3.22 definitely WON'T WORK.
-
-  * Versions lower than 3.22.19 might not work.
-
-  * MySQL-3.22 might work but isn't supported anymore. It's very old.
-
-  * MySQL-3.23 ought to work, but it's pretty elderly.
-
-  * MySQL-4.0 is supported, but not tested and slightly discouraged.
-
-  * MySQL-4.1 is supported. The prepared statements API is not
-    supported, and won't be until MySQLdb-1.3 or 2.0, if ever.
-
-  * MySQL-5.0 is supported and tested, including stored procedures.
-
-  * MySQL-5.1 is supported (currently a release candidate) but untested.
-    It should work.
-
-  * MySQL-6.0 is sorta-kinda-supported (currently alpha) but untested.
-    It should work.
-
-  * Drizzle <https://launchpad.net/drizzle> is a fork of MySQL. So far
-    the C API looks really similar except everything is renamed.
-    Drizzle support probably won't happen in 1.2. There may be have to
-    be an entirely different module, but still using DB-API.
-
-  * MaxDB, formerly known as SAP DB (and maybe Adabas D?), is a
-    completely different animal. Use the sapdb.sql module that comes
-    with MaxDB.
-
-  * Red Hat Linux packages:
-
-    - mysql-devel to compile
-
-    - mysql and/or mysql-devel to run
-
-  * MySQL.com RPM packages:
-
-    - MySQL-devel to compile
-
-    - MySQL-shared if you want to use their shared
-      library. Otherwise you'll get a statically-linked module,
-      which may or may not be what you want.
-
-    - MySQL-shared to run if you compiled with MySQL-shared installed
-
-  * Transactions (particularly InnoDB tables) are supported for
-    MySQL-3.23 and up. You may need a special package from your vendor
-    with this support turned on.
-
-+  zlib
-
-   * Required for MySQL-3.23 and newer.
-
-   * Red Hat Linux
-
-     - zlib-devel to compile
-
-     - zlib to run
-
-+ openssl
-
-  * May be needed for MySQL-4.0 or newer, depending on compilation
-    options. If you need it, you probably already have it.
-
-    - you may need openssl-devel on some platforms
-
-+ C compiler
-
-  * Most free software-based systems already have this, usually gcc.
-
-  * Most commercial UNIX platforms also come with a C compiler, or
-    you can also use gcc.
-
-  * If you have some Windows flavor, you usually have to pay extra
-    for this, or you can use Cygwin_.
-
-.. _Cygwin: http://www.cygwin.com/
 
 
 Building and installing
@@ -328,8 +248,6 @@ http://mysql-python.sourceforge.net/MySQLdb.html
 
 >>> import _mysql
 >>> db=_mysql.connect("localhost","root","wang","mysql")
-
-
 
 另外参考http://snippets.aktagon.com/snippets/211-How-to-install-and-use-the-mysql-python-library
 
