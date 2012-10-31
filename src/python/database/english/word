@@ -10,3 +10,6 @@ Anyhow, sed is a marvelous utility. Unfortunately, most people never learn its r
 Do not fret! It is not your fault you don't understand sed. I will cover sed completely. But I will describe the features in the order that I learned them. I didn't learn everything at once. You don't need to either.
 
 brute-force
+
+
+And there's no need to add URL cruft such as .php -- unless you have a sick sense of humor, in which case you can do something like this

@@ -1,0 +1,107 @@
+ ubuntu(sudo apt安装的)和mac的apache目录结构不同(但是都是在/etc/apache2/)
+
+ 在/usr/sbin两者都有apachectl启动或者停止服务器，但是ubuntu在/etc/init.d/中有apache2文件，也可以启动服务器（
+ "Usage: /etc/init.d/apache2 {start|stop|restart|reload|force-reload|start-htcacheclean|sto    p-htcacheclean|status}"
+ ）
+ 
+在mac中/etc/apache2/httpd.conf（以及httpd.cong.default）中有
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	# Language settings
+	Include /private/etc/apache2/extra/httpd-languages.conf
+	
+	<IfDefine WEBSHARING_ON>
+	# Multi    -language error messages
+	#Include /private/etc/apache2/extra/httpd-multilang-errordoc.conf
+	
+	# Fancy directory listings
+	Include /private/etc/apache2/extra/httpd-autoindex.conf
+	
+	# User home directories
+	Include /private/etc/apache2/extra/httpd-userdir.conf
+	
+	# Real-time info on requests and configuration
+	#Include /private/etc/apache2/extra/httpd-info.conf
+	
+	# Virtual hosts
+	#Include /private/etc/apache2/extra/httpd-vhosts.conf
+	
+	# Local access to the Apache HTTP Server Manual
+	Include /private/etc/apache2/extra/httpd-manual.conf
+	
+	# Distributed authoring and versioning (WebDAV)
+	#Include /private/etc/apache2/extra/httpd-dav.conf
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+mac中etc是符号链接到/private/etc的，所以/private/etc/apache2/就是/etc/apache2,虚拟主机在/private/etc/apache2/extra/httpd-vhosts.conf配置
+另外文件中有DocumentRoot "/Library/WebServer/Documents"，说明服务器文档根在这里;(http://localhost/)
+另外在 /private/etc/apache2/extra/httpd-userdir.conf中有
+
+	#
+	# Users might not be in /Users/*/Sites, so use user-specific config files.
+	#
+	Include /private/etc/apache2/users/*.conf
+	<IfModule bonjour_module>
+	       RegisterUserSite customized-users
+	</IfModule>
+
+所以有users/wangliang.conf文件，内容为
+	<Directory "/Users/wangliang/Sites/">
+	    Options Indexes MultiViews
+	    AllowOverride None
+	    Order allow,deny
+	    Allow from all
+	</Directory>
+
+所以访问http://localhost/~wangliang
+
+另外在文档中有ServerRoot "/usr"，所以下面的、
+LoadModule authn_file_module libexec/apache2/mod_authn_file.so
+其中mod_authn_file.so在/usr/libexec/apache2目录下
+
+
+
+而在ubuntu中httpd.conf是空的，配置文件是apache2.conf，其中包含：
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	# Virtual hosts
+	#Include /private/etc/apache2/extra/httpd-vhosts.conf
+	
+	
+	在ubuntu中/etc/httpd.conf中没有内容，只有apache2.conf中有配置，其中有
+	
+	# Include module configuration:
+	Include mods-enabled/*.load
+	Include mods-enabled/*.conf
+	
+	# Include all the user configurations:
+	Include httpd.conf		(包含了httpd.conf)
+	
+	# Include ports listing
+	Include ports.conf
+	
+	#
+	# The following directives define some format nicknames for use with
+	# a CustomLog directive (see below).
+	# If you are behind a reverse proxy, you might want to change %h into %{X-Forwarded-For}i
+	#
+	LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+	LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+	LogFormat "%h %l %u %t \"%r\" %>s %O" common
+	LogFormat "%{Referer}i -> %U" referer
+	LogFormat "%{User-agent}i" agent
+	
+	# Include of directories ignores editors' and dpkg's backup files,
+	# see README.Debian for details.
+	
+	# Include generic snippets of statements
+	Include conf.d/
+	
+	# Include the virtual host configurations:
+	Include sites-enabled/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+在apache2.conf中不像在mac中有那么多模块（LoadModule），它是在
+	Include mods-enabled/*.load
+	Include mods-enabled/*.conf
+中包含的。而以上最终也是符号链接到/usr/lib/apache2/Moduldes/
+
+另外
+#ServerRoot "/etc/apache2"是注释的，所以ServerRoot没有设置
