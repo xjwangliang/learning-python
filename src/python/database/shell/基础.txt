@@ -1,3 +1,49 @@
+插入行/追加行/替换行命令: i/a/c
+
+example
+	#==================
+	使用行替换命令将第2行到最后一行的内容全部替换成'----'：
+
+	sed '2,$c\
+	--------------------------------------
+	' 
+
+	#==================
+	删除第2行到最后一行
+	cat test |sed '2,$d'
+
+	#==================
+	在第2行后面添加'------'：
+
+	$ sed '2a\
+	--------------------------------------
+	' list
+
+	#==================
+	=命令显示当前行行号
+	sed '=' list
+
+	#==================
+	Add a prefix string to beginning of each line
+	sed -e 's/^/prefix/' file
+
+	# If you want to edit the file in-place
+	sed -i -e 's/^/prefix/' file
+
+	# If you want to create a new file
+	sed -e 's/^/prefix/' file > file.new
+
+	awk '$0="prefix"$0' file > new_file
+	
+	#==================
+	prepend a line number and tab to each line of a text file
+	cat -n somefile.txt
+	awk '{printf "%d\t%s\n", NR, $0}' < filename
+	nl lines.txt
+
+ 	grep -n . file.txt | sed 's/\(^[0-9]*\):/\1    /g'
+ 	# this is a tab with Ctrl-V + Tab  =====>  ----
+
 http://bbs.chinaunix.net/forum/viewtopic.php?t=434579&highlight=wingger
 
 http://www.grymoire.com/Unix/
